@@ -1,0 +1,7 @@
+##File types to ignore
+
+*.class
+*.classpath
+*.metadata
+target/
+.settings/
