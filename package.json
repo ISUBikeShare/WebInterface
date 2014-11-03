@@ -1,0 +1,13 @@
+{
+	"name": "BikeShare",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ISUBikeShare/WebInterface.git"
+	},
+	"main": "server.js",
+	"dependencies": {
+		"express": "^4.2.0",
+		"mongoose": "^3.8.8",
+		"body-parser": "^1.2.0"
+	}
+}
