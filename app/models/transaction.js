@@ -1,3 +1,7 @@
+/*
+ * This creates the schema for our transaction model
+*/
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
