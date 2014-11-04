@@ -46,11 +46,11 @@ router//.route('/transactions')
 	.post('/save', function(req, res) {
 		
 		var transaction = new Transaction(); 		// create a new instance of the Transaction model
-		transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request)
-		transaction.stationID = req.body.stationID; //set the transaction stationID (comes from the request)
-		transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request)
-		transaction.action = req.body.action;		//sets the action of the transaction (comes from the request)
-		transaction.damaged = req.body.damaged		//sets the transaction state of the bike (comes from the request)
+		transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
+		transaction.stationID = req.body.stationID; //set the transaction stationID (comes from the request) number
+		transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request) number
+		transaction.action = req.body.action;		//sets the action of the transaction (comes from the request) string
+		transaction.damaged = req.body.damaged		//sets the transaction state of the bike (comes from the request) bool
 		
 		// save the transaction and check for errors
 		transaction.save(function(err) {
