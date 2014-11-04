@@ -97,7 +97,27 @@ router//.route('/transactions')
 			res.json(transactions);
 		})
 	})
-	
+
+	// get all transactions with the given action 
+	.get('/findallbyaction/:action', function(req, res) {
+		Transaction.where({ action: req.params.action}).find(function (err, transactions)	{
+			if (err)
+				res.send(err);
+				
+			res.json(transactions);
+		})
+	})
+
+	// get all transactions with the given damage type
+	.get('/findallbydamaged/:damaged', function(req, res) {
+		Transaction.where({ damaged: req.params.damaged}).find(function (err, transactions)	{
+			if (err)
+				res.send(err);
+				
+			res.json(transactions);
+		})
+	})
+
 	
 	
 	;
