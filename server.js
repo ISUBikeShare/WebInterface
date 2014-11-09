@@ -14,6 +14,7 @@ var API 		= require('./app/controllers/api');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/app/views'));
 
 //MongoDB connection
 mongoose.connect('mongodb://localhost/test');
@@ -30,8 +31,11 @@ router.use(function(req, res, next) {
 });
 
 // more routes for our API will happen here
-router//.route('/transactions')
-
+router
+	//Go to home page
+	.get('/view/index', function(req, res) {
+		res.sendFile(__dirname + '/app/views/index.html');
+	})
 	// create a transaction (accessed at POST http://localhost:8080/api/save)
 	.post('/save', function(req, res) {
 		API.save(req, res);
