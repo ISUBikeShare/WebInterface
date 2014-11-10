@@ -7,6 +7,9 @@
 	</head>
 
 	<body ng-controller="IndexCtrl">
-		{{ text }}
+		<div class="error-text" ng-if="failureText">
+			{{ failureText }}
+		</div>
+		<button ng-click="findAll()">Find all!</button>
 	</body>
 </html>
