@@ -1,15 +1,12 @@
-<html>
+<link rel="import" href="base.html">
+
+<html ng-app="BikeshareApp">
 	<head>
 		<title>GSB BikeShare</title>
 		<link rel="stylesheet" type="text/css" href="main.css"/>
 	</head>
-	<body>
-		hi
+
+	<body ng-controller="IndexCtrl">
+		{{ text }}
 	</body>
 </html>
-<script>
-	require("jquery");
-	$(document).ready(function () {
-		alert();
-	});
-</script>
