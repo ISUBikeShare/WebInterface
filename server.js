@@ -14,7 +14,12 @@ var API 		= require('./app/controllers/api');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/app/views'));
+app.use(express.static(__dirname + '/app/public/views'));
+app.use(express.static(__dirname + '/app/public/controllers'));
+app.use(express.static(__dirname + '/node_modules/angular'));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 
 //MongoDB connection
 mongoose.connect('mongodb://localhost/test');

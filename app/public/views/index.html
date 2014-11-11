@@ -1,0 +1,39 @@
+<link rel="import" href="base.html">
+
+<html ng-app="BikeshareApp">
+	<head>
+		<title>GSB BikeShare</title>
+		<link rel="stylesheet" type="text/css" href="main.css"/>
+	</head>
+
+	<body ng-controller="IndexCtrl">
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">ISU Bikeshare Admin</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li ng-click="switchView('manage')" ng-class="{true:'active', false: ''}[pageView == 'manage']"><a href="#">Manage</a></li>
+						<li ng-click="switchView('settings')" ng-class="{true:'active', false: ''}[pageView == 'settings']"><a href="#">Settings</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="error-text" ng-if="failureText">
+			{{ failureText }}
+		</div>
+		<div ng-if="pageView == 'manage'">
+			<button ng-click="findAll()">Manage</button>
+		</div>
+		<div ng-if="pageView == 'settings'">
+			<button ng-click="findAll()">Settings!</button>
+		</div>
+	</body>
+</html>
