@@ -22,7 +22,7 @@ app.use(express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use(express.static(__dirname + '/node_modules/jquery/dist'));
 
 //MongoDB connection
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://heroku:UXJdjw4lq1mH124rfG-e3J39Z46qnr5qLVAHqxeF4VkbRdJQwuMtoE5sYT6IABCwczNWAzFuKfhhDVi8oICP0w@dogen.mongohq.com:10041/app31776674');
 
 var port = process.env.PORT || 8080; 		// set our port
 	
