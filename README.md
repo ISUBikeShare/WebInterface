@@ -26,5 +26,5 @@ Bike Share Web Server
 | findAllAdmins | /api/findalladmins | GET| N/A | {<br>{cardString: string},<br>{cardString: string},<br>...<br>} |
 | findBikeByID | /api/findbikebyid/:ID | GET | Inline Param | { bikeID: number, dockID: number, state: string, isDamaged: boolean} |
 | findDockByID | /api/finddockbyid/:ID | GET | Inline Param | { dockID: number, bikeID: number, location: string, status: boolean}|
-| findAllTransactions | /api/findalltransactions | GET | N/A | {<br>{bikeID: number, dockID: number, studentID: number, date: Date, action: string, success: boolean}<br>,...<br>} |
+| findAllTransactions | /api/findalltransactions | GET | N/A | {<br>{bikeID: number, dockID: number, studentID: number, date: Date, action: string, success: boolean},<br>...<br>} |
 | findTransactionsByParamID | /api/findtransactionsbyparamid | POST | Optional params - number bikeID, number dockID, number studentID | {<br>{bikeID: number, dockID: number, studentID: number, date: Date, action: string, success: boolean},<br>...<br>} |
