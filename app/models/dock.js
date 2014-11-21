@@ -9,7 +9,7 @@ var dockSchema = new Schema({
 	dockID: Number,
 	location: String,
 	bikeID: Number,
-    status: Boolean
+	status: Boolean
 });
 
 module.exports = mongoose.model('Dock', dockSchema);
