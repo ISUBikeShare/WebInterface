@@ -13,18 +13,14 @@ API.findAll = function(req, res){
 function save(req, res) {
     var transaction = new Transaction(); 		// create a new instance of the Transaction model
     transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
-    transaction.dockID = req.body.dockID; //set the transaction stationID (comes from the request) number
+    transaction.dockID = req.body.dockID; //set the transaction dockID (comes from the request) number
     transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request) number
     transaction.action = req.body.action;		//sets the action of the transaction (comes from the request) string
-    transaction.damaged = req.body.damaged;		//sets the transaction state of the bike (comes from the request) bool
+    transaction.success = req.body.success;		// returns whether or not the transaction was a success (bool)
+
 
     // save the transaction and check for errors
-    transaction.save(function (err) {
-        if (err)
-            res.send(err);
-
-        res.json({ message: 'Transaction created!' });
-    });
+    transaction.save();
 
 }
 
