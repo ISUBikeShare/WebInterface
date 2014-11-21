@@ -10,7 +10,7 @@ var transactionSchema = new Schema({
 	dockID: Number,
 	studentID: Number,
 	date: {type: Date, default: Date.now},
-	action: String,
+	action: {type: String, enum: ['in', 'out']},
 	success: Boolean
 });
 

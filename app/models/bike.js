@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var bikeSchema = new Schema({
 	bikeID: Number,
 	dockID: Number,
-	state: String,
+	state: {type: String, enum: ['in', 'out', 'maintenance']},
 	isDamaged: Boolean
 });
 
