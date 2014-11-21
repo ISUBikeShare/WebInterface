@@ -44,6 +44,11 @@ API.checkIn = function (req, res) {
     //(return 200)
 
 };
+
+API.register = function (req, res) {
+
+};
+
 API.createDock = function (req, res) {
 
 

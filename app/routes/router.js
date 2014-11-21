@@ -25,6 +25,11 @@ router
         API.checkIn(req, res);
 	})
 
+    // registers a dock (accessed at POST http://localhost:8080/api/register)
+    .post('/register', function (req, res){
+
+    })
+
     //create a new dock (accessed at POST http://localhost:8080/api/createdock)
     .post('/createdock', function(req, res){
         API.createDock(req, res);
@@ -41,7 +46,7 @@ router
     })
 
     // Creates a bike (accessed at POST http://localhost:8080/api/createBike)
-    .post('/createBike', function (req, res) {
+    .post('/createbike', function (req, res) {
         API.createBike(req, res);
     })
 
