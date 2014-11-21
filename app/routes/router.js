@@ -45,7 +45,7 @@ router
         API.setDockLocation(req, res);
     })
 
-    // Creates a bike (accessed at POST http://localhost:8080/api/createBike)
+    // Creates a bike (accessed at POST http://localhost:8080/api/createbike)
     .post('/createbike', function (req, res) {
         API.createBike(req, res);
     })
