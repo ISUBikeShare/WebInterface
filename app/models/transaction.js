@@ -7,11 +7,11 @@ var Schema = mongoose.Schema;
 
 var transactionSchema = new Schema({
 	bikeID: Number,
-	stationID: Number,
+	dockID: Number,
 	studentID: Number,
 	date: {type: Date, default: Date.now},
-	action: String,
-	damaged: Boolean
+	action: {type: String, enum: ['in', 'out']},
+	success: Boolean
 });
 
 module.exports = mongoose.model('Transaction', transactionSchema);
