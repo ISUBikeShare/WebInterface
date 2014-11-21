@@ -8,68 +8,89 @@ API.findAll = function(req, res){
 			
 		res.json(transactions);
 	});
+};
+
+function save(req, res) {
+    var transaction = new Transaction(); 		// create a new instance of the Transaction model
+    transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
+    transaction.stationID = req.body.stationID; //set the transaction stationID (comes from the request) number
+    transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request) number
+    transaction.action = req.body.action;		//sets the action of the transaction (comes from the request) string
+    transaction.damaged = req.body.damaged;		//sets the transaction state of the bike (comes from the request) bool
+
+    // save the transaction and check for errors
+    transaction.save(function (err) {
+        if (err)
+            res.send(err);
+
+        res.json({ message: 'Transaction created!' });
+    });
+
 }
 
-API.save = function(req, res){
-	var transaction = new Transaction(); 		// create a new instance of the Transaction model
-	transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
-	transaction.stationID = req.body.stationID; //set the transaction stationID (comes from the request) number
-	transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request) number
-	transaction.action = req.body.action;		//sets the action of the transaction (comes from the request) string
-	transaction.damaged = req.body.damaged;		//sets the transaction state of the bike (comes from the request) bool
-	
-	// save the transaction and check for errors
-	transaction.save(function(err) {
-		if (err)
-			res.send(err);
+API.checkOut = function (req, res) {
+    //Get string data from card and send to other API - get studentID back
+    //Look up if student currently has another bike out
+    //If yes, do not unlock (return 401)
+    //If no, allow bike to be checked out and unlock
+    // ** Create Transaction **
+    // (return 200)
+};
 
-		res.json({ message: 'Transaction created!' });
-	});
-}
+API.checkIn = function (req, res) {
+    //Update dock to contain a bike
+    //Remove bike from studentID
+    //** Create Transaction **
+    //(return 200)
 
-API.findAllByBikeID = function(req, res) {
-	Transaction.where({ bikeID: req.params.bikeid}).find(function (err, transactions)	{
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-}
+};
+API.createDock = function (req, res) {
 
-API.findAllByStationID = function(req, res) {
-	Transaction.where({ stationID: req.params.stationid}).find(function (err, transactions)	{
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-}
 
-API.findAllByStudentID = function(req, res) {
-	Transaction.where({ studentID: req.params.studentid}).find(function (err, transactions)	{
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-}
+};
 
-API.findAllByDamaged = function(req, res) {
-	Transaction.where({ damaged: req.params.damaged}).find(function (err, transactions)	{
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-}
+API.findDockStatus = function (req, res) {
 
-API.findAllByAction = function(req, res) {
-	Transaction.where({ action: req.params.action}).find(function (err, transactions)	{
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-}
+};
+
+API.setDockLocation = function (req, res) {
+
+};
+
+API.createBike = function (req, res){
+
+};
+
+API.setBikeDamage = function (req, res){
+
+};
+
+API.createAdmin = function (req, res){
+
+};
+
+API.removeAdmin = function (req, res){
+
+};
+
+API.findAllAdmins = function (req, res){
+
+};
+
+API.findBikeById = function (req, res){
+
+};
+
+API.findDockById = function (req, res){
+
+};
+
+API.findAllTransactions = function(req, res){
+
+};
+
+API.findTransactionsByParamId = function(req, res){
+
+};
 
 module.exports = API;

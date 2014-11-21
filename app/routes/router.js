@@ -15,33 +15,75 @@ router
 	.get('/view/index', function(req, res) {
 		res.sendFile(__dirname + '/app/views/index.html');
 	})
-	// create a transaction (accessed at POST http://localhost:8080/api/save)
-	.post('/save', function(req, res) {
-		API.save(req, res);
+	// create a transaction (accessed at POST http://localhost:8080/api/checkOut)
+	.post('/checkout', function(req, res) {
+        API.checkOut(req, res);
 	})
-	// get all the transactions (accessed at GET http://localhost:8080/api/findall)
-	.get('/findall', function(req, res) {
-		API.findAll(req, res);
+
+    // create a transaction (accessed at POST http://localhost:8080/api/checkIn)
+	.post('/checkin', function(req, res) {
+        API.checkIn(req, res);
 	})
-	// get all transactions with the given bikeID (accessed at GET http://localhost:8080/api/findallbybikeid/id_goes_here)
-	.get('/findallbybikeid/:bikeid', function(req, res) {
-		API.findAllByBikeID(req, res);
-	})
-	// get all transactions with the given stationID (accessed at GET http://localhost:8080/api/findallbystationid/id_goes_here)
-	.get('/findallbystationid/:stationid', function(req, res) {
-		API.findAllByStationID(req, res);
-	})
-	// get all transactions with the given studentID (accessed at GET http://localhost:8080/api/findallbystudentid/id_goes_here)
-	.get('/findallbystudentid/:studentid', function(req, res) {
-		API.findAllByStudentID(req, res);
-	})
-	// get all transactions with the given action  (accessed at GET http://localhost:8080/api/findallbyaction/action_goes_here)
-	.get('/findallbyaction/:action', function(req, res) {
-		API.findAllByAction(req, res);
-	})
-	// get all transactions with the given damage type (accessed at GET http://localhost:8080/api/findallbydamaged/damaged_boolean_goes_here)
-	.get('/findallbydamaged/:damaged', function(req, res) {
-		API.findAllByDamaged(req, res);
-	});
+
+    //create a new dock (accessed at POST http://localhost:8080/api/createdock)
+    .post('/createdock', function(req, res){
+        API.createDock(req, res);
+    })
+
+    // gets the status of a dock (accessed at POST http://localhost:8080/api/finddockstatus)
+    .get('/finddockstatus', function(req, res) {
+        API.findDockStatus(req, res);
+
+    })
+    // sets the dock the location of the dock (accessed at POST http://localhost:8080/api/setdocklocation)
+    .post('/setdockloaction', function (req, res) {
+        API.setDockLocation(req, res);
+    })
+
+    // Creates a bike (accessed at POST http://localhost:8080/api/createBike)
+    .post('/createBike', function (req, res) {
+        API.createBike(req, res);
+    })
+
+    // Sets the damage of a bike (accessed at POST http://localhost:8080/api/setbikedamage)
+    .post('/setbikedamage', function (req, res){
+        API.setBikeDamage(req, res);
+    })
+
+    //Creates a new admin (accessed at POST http://localhost:8080/api/createadmin)
+    .post('/createadmin', function (req, res) {
+        API.createAdmin(req, res);
+    })
+
+    //Removes an admin from the system (accessed at POST http://localhost:8080/api/removeadmin)
+    .post('/removeadmin', function (req, res){
+        API.removeAdmin(req, res);
+    })
+
+    // gets all the admins in the system (accessed at POST http://localhost:8080/api/findalladmins)
+    .get('/findalladmins', function (req, res) {
+        API.findAllAdmins(req, res);
+    })
+
+    // gets a bike in the system by the bike id (accessed at POST http://localhost:8080/api/findbikebyid)
+    .get('/findbikebyid', function (req, res) {
+        API.findBikeById(req, res);
+    })
+
+    // gets the dock by id (accessed at POST http://localhost:8080/api/finddockbyid)
+    .get('/finddockbyid', function (req, res){
+        API.findDockById(req, res);
+    })
+
+    // gets all the transactions (accessed at POST http://localhost:8080/api/getalltransactions)
+    .get('/findalltransactions', function (req, res){
+        API.findAllTransactions(req, res);
+    })
+
+    // gets all the transactions based on the given parameter (e.g. studentId, bikeid, etc. (accessed at POST http://localhost:8080/api/findalltranactionsbyparamid)
+    .get('/findalltransactionsbyparamid', function (req, res){
+        API.findTransactionsByParamId(req, res)
+    });
+
 	
 module.exports = router;
