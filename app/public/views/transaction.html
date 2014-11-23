@@ -1,0 +1,42 @@
+<div>
+	<div class="alert alert-danger" ng-if="failureText">
+		<i class="fa fa-exclamation-triangle"></i> {{ failureText }}
+	</div>
+	<h2 class="sub-header">
+		Transactions
+		<input position="inline"
+		   id="searchBox"
+		   placeholder="Filter"
+		   class="pull-right form-control"
+		   type="text"
+		   ng-model="searchText"
+		   style="width: 200px; font-weight: normal;">
+	</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Bike ID</th>
+					<th>Dock ID</th>
+					<th>Student ID</th>
+					<th>Date</th>
+					<th>In/Out</th>
+					<th>Success</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="transaction in transactions | filter:searchText as filterResults">
+					<td>{{ transaction.bikeID }}</td>
+					<td>{{ transaction.dockID }}</td>
+					<td>{{ transaction.studentID }}</td>
+					<td>{{ transaction.date }}</td>
+					<td>{{ transaction.action }}</td>
+					<td>{{ transaction.success }}</td>
+				</tr>
+				<tr ng-if="filterResults.length == 0">
+					<td colspan="6" style="text-align: center">No transactions found</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

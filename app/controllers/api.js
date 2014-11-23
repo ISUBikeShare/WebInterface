@@ -87,7 +87,12 @@ API.findDockById = function (req, res){
 };
 
 API.findAllTransactions = function(req, res){
+    Transaction.find(function(err, transactions) {
+		if (err)
+			res.send(err);
 
+		res.json(transactions);
+	});
 };
 
 API.findTransactionsByParamId = function(req, res){
