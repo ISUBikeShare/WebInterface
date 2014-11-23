@@ -1,15 +1,6 @@
 var Transaction = require('../models/transaction');
 var API = new Object();
 
-API.findAll = function(req, res){
-	Transaction.find(function(err, transactions) {
-		if (err)
-			res.send(err);
-			
-		res.json(transactions);
-	});
-};
-
 function save(req, res) {
     var transaction = new Transaction(); 		// create a new instance of the Transaction model
     transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
