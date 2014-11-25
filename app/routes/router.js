@@ -57,7 +57,7 @@ router
 
     //Creates a new admin (accessed at POST http://localhost:8080/api/createadmin)
     .post('/createadmin', function (req, res) {
-        API.createAdmin(req, res);
+		API.createAdmin(req, res);
     })
 
     //Removes an admin from the system (accessed at POST http://localhost:8080/api/removeadmin)

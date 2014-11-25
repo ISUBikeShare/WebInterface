@@ -1,4 +1,7 @@
 var Transaction = require('../models/transaction');
+var Dock = require('../models/bike');
+var Bike = require('../models/dock');
+var Admin = require('../models/admin');
 var API = new Object();
 
 function save(req, res) {
@@ -58,15 +61,30 @@ API.setBikeDamage = function (req, res){
 };
 
 API.createAdmin = function (req, res){
-
+	var admin = new Admin();
+	admin.cardString = req.body.cardString;
+	admin.save(function(err) {
+		if (err) res.send(err);
+	
+		res.sendStatus(200);
+	});
 };
 
 API.removeAdmin = function (req, res){
-
+	var cardString = req.body.cardString;
+	Admin.findOneAndRemove({'cardString': cardString}, function (err) {
+		if (err) res.send(err);
+		
+		res.sendStatus(200);
+	});
 };
 
 API.findAllAdmins = function (req, res){
-
+	Admin.find(function(err, admins) {
+		if (err) res.send(err);
+			
+		res.json(admins);
+	})
 };
 
 API.findBikeById = function (req, res){
