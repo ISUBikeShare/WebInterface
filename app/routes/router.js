@@ -41,7 +41,7 @@ router
 
     })
     // sets the dock the location of the dock (accessed at POST http://localhost:8080/api/setdocklocation)
-    .post('/setdockloaction', function (req, res) {
+    .post('/setdocklocation', function (req, res) {
         API.setDockLocation(req, res);
     })
 

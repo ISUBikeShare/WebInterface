@@ -46,10 +46,10 @@ API.createDock = function (req, res) {
 	//find largest dockID
 	Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
 		//callback function to create dock
-		var dock = new Bike();
-		dock.location = false;
+		var dock = new Dock();
+		dock.location = null;
 		dock.bikeID = null;
-		dock.dockID = ++object.dockID;
+		dock.dockID = object == null ? 1 : ++object.dockID;
 		dock.status = true;
 		dock.save(function(err) {
 			//callback function to handle response
@@ -61,14 +61,17 @@ API.createDock = function (req, res) {
 };
 
 API.findDockStatus = function (req, res) {
-	// TODO
 	var dockID = req.body.dockID;
+	//Need to talk to PI people on the best way to tackle this.
 };
 
 API.setDockLocation = function (req, res) {
 	// TODO
 	var dockID = req.body.dockID;
 	var location = req.body.location;
+	Dock.update({dockID: dockID}, {location: location}, function () {
+		res.sendStatus(200);
+	});
 };
 
 API.createBike = function (req, res){
@@ -93,9 +96,8 @@ API.setBikeDamage = function (req, res){
 	var isDamaged = req.body.isDamaged;
 	var bikeID = req.body.bikeID;
 	Bike.update({bikeID: bikeID}, {isDamaged: isDamaged}, function () {
-		console.log("it worked!");
+		res.sendStatus(200);
 	});
-	// TODO
 };
 
 API.createAdmin = function (req, res){
@@ -136,7 +138,7 @@ API.findBikeById = function (req, res){
 
 API.findDockById = function (req, res){
 	var dockID = req.params.dockID;
-	Dock.where({ dockID: dockID}).findOne(function(err, dock) {
+	Dock.where({dockID: dockID}).findOne(function(err, dock) {
 		if (err) res.send(err);
 			
 		res.json(dock);
