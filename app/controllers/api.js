@@ -95,6 +95,14 @@ API.createBike = function (req, res){
 	});
 };
 
+API.findAllBikes = function (req, res) {
+	Bike.find(function (err, bikes) {
+		if(err) res.send(err);
+	
+		res.send(bikes);
+	});
+};
+
 API.setBikeDamage = function (req, res){
 	var isDamaged = req.body.isDamaged;
 	var bikeID = req.body.bikeID;

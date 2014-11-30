@@ -45,6 +45,10 @@ router
         API.setDockLocation(req, res);
     })
 
+	.get('/findallbikes', function (req, res) {
+		API.findAllBikes(req, res);
+	})
+	
     // Creates a bike (accessed at POST http://localhost:8080/api/createbike)
     .post('/createbike', function (req, res) {
         API.createBike(req, res);
