@@ -69,7 +69,10 @@ API.setDockLocation = function (req, res) {
 	// TODO
 	var dockID = req.body.dockID;
 	var location = req.body.location;
-	Dock.update({dockID: dockID}, {location: location}, function () {
+	Dock.update({dockID: dockID}, {location: location}, function (err) {
+		//callback function to handle response
+		if (err) res.send(err);
+	
 		res.sendStatus(200);
 	});
 };
@@ -95,7 +98,10 @@ API.createBike = function (req, res){
 API.setBikeDamage = function (req, res){
 	var isDamaged = req.body.isDamaged;
 	var bikeID = req.body.bikeID;
-	Bike.update({bikeID: bikeID}, {isDamaged: isDamaged}, function () {
+	Bike.update({bikeID: bikeID}, {isDamaged: isDamaged}, function (err) {
+		//callback function to handle response
+		if (err) res.send(err);
+	
 		res.sendStatus(200);
 	});
 };
