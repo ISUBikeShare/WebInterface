@@ -41,10 +41,14 @@ router
 
     })
     // sets the dock the location of the dock (accessed at POST http://localhost:8080/api/setdocklocation)
-    .post('/setdockloaction', function (req, res) {
+    .post('/setdocklocation', function (req, res) {
         API.setDockLocation(req, res);
     })
 
+	.get('/findallbikes', function (req, res) {
+		API.findAllBikes(req, res);
+	})
+	
     // Creates a bike (accessed at POST http://localhost:8080/api/createbike)
     .post('/createbike', function (req, res) {
         API.createBike(req, res);
@@ -71,12 +75,12 @@ router
     })
 
     // gets a bike in the system by the bike id (accessed at POST http://localhost:8080/api/findbikebyid)
-    .get('/findbikebyid', function (req, res) {
+    .get('/findbikebyid/:bikeID', function (req, res) {
         API.findBikeById(req, res);
     })
 
     // gets the dock by id (accessed at POST http://localhost:8080/api/finddockbyid)
-    .get('/finddockbyid', function (req, res){
+    .get('/finddockbyid/:dockID', function (req, res){
         API.findDockById(req, res);
     })
 
@@ -88,7 +92,10 @@ router
     // gets all the transactions based on the given parameter (e.g. studentId, bikeid, etc. (accessed at POST http://localhost:8080/api/findalltranactionsbyparamid)
     .get('/findalltransactionsbyparamid', function (req, res){
         API.findTransactionsByParamId(req, res)
-    });
+    })
+	.get('/blowitup', function(req, res){
+		API.blowitup(req, res);
+	});;
 
 	
 module.exports = router;
