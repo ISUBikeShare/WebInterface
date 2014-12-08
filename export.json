@@ -1,5 +1,0 @@
-{ "_id" : { "$oid" : "544c0d0ac46196f552602e46" }, "bikeID" : 1, "stationID" : 1, "studentID" : 1, "time" : "10/25/2014 3:49", "action" : "checkedOut", "damaged" : false }
-{ "_id" : { "$oid" : "544c0d24c46196f552602e47" }, "bikeID" : 1, "stationID" : 1, "studentID" : 1, "time" : "10/25/2014 4:00", "action" : "checkedIn", "damaged" : false }
-{ "_id" : { "$oid" : "544c0d40c46196f552602e48" }, "bikeID" : 1, "stationID" : 1, "studentID" : 2, "time" : "10/25/2014 4:15", "action" : "checkedOut", "damaged" : false }
-{ "_id" : { "$oid" : "544c0d4fc46196f552602e49" }, "bikeID" : 1, "stationID" : 1, "studentID" : 2, "time" : "10/25/2014 4:20", "action" : "checkedIn", "damaged" : true }
-{ "_id" : { "$oid" : "544c0d86c46196f552602e4a" }, "bikeID" : 1, "stationID" : 1, "studentID" : 0, "time" : "10/25/2014 7:00", "action" : "maintenance", "damaged" : false }
