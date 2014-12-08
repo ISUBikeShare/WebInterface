@@ -5,7 +5,8 @@ angular.module('BikeshareServices', ['ngResource'])
 				Transactions: $resource('/api/findalltransactions', {}),
 				Bikes: $resource('/api/findallbikes', {}),
 				AddBikes: $resource('/api/createbike', {}),
-				BikeDamage: $resource('/api/setbikedamage', {})
+				BikeDamage: $resource('/api/setbikedamage', {}),
+				Docks: $resource('/api/findalldocks', {})
 			}
 		}
 	]);

@@ -114,7 +114,7 @@ angular.module('BikeshareControllers', [])
                     $scope.getDocksSuccessHandler,
                     $scope.getDocksFailureHandler
                 )
-			}
+			};
 
             $scope.getDocksSuccessHandler = function(response) {
                 $scope.docks = response;
@@ -122,7 +122,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.getDocksFailureHandler = function(response) {
                 $scope.failureText = 'There was an error in fetching docks. Please try again.'
-            }
+            };
 
             $scope.getDocks();
 		}

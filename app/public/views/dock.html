@@ -23,16 +23,14 @@
 					<th>Location</th>
 					<th>Current Bike ID</th>
 					<th>Status</th>
-					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="dock in docks | filter:searchText as filterResults">
 					<td>{{ dock.dockID }}</td>
-					<td>{{ dock.location }}</td>
+					<td>South Side Library</td>
 					<td>{{ dock.bikeID }}</td>
 					<td>{{ dock.status }}</td>
-					<td>hmm</td>
 				</tr>
 				<tr ng-if="filterResults.length == 0">
 					<td colspan="6" style="text-align: center">No docks found</td>

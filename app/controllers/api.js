@@ -105,6 +105,14 @@ API.findDockStatus = function (req, res) {
 	//Need to talk to PI people on the best way to tackle this.
 };
 
+API.findAllDocks = function(req, res) {
+	Dock.find(function(err, docks) {
+		if (err) res.send(err);
+
+		res.json(docks);
+	})
+};
+
 API.setDockLocation = function (req, res) {
 	// TODO
 	var dockID = req.body.dockID;
