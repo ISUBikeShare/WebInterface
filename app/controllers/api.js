@@ -229,4 +229,37 @@ API.blowitup = function (req, res){
 	res.sendStatus(200);
 };
 
+API.setupDemo = function(req, res) {
+    Bike.collection.remove(function () { console.log("Bike collection went Boom")});
+	Dock.collection.remove(function () { console.log("Dock collection is now exploded")});
+	Transaction.collection.remove(function () { console.log("Transaction collection? More like TNT collection")});
+	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
+
+    Bike.findOne().sort('-bikeID').select('bikeID').exec(function (err, object) {
+		//callback function to create bike
+		var bike = new Bike();
+		bike.isDamaged = false; //FIX BOOLEAN
+		bike.state = 'in'; 		//FIX ENUM
+		bike.dockID = 1;
+		bike.bikeID = object == null ? 1 : ++object.bikeID;
+		bike.save(function(err) {
+			//callback function to handle response
+			if (err) res.send(err);
+		});
+	});
+    Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
+		//callback function to create dock
+		var dock = new Dock();
+		dock.location = null;
+		dock.bikeID = 1;
+		dock.dockID = object == null ? 1 : ++object.dockID;
+		dock.status = true;
+		dock.save(function(err) {
+			//callback function to handle response
+			if (err) res.send(err);
+		});
+	});
+    res.sendStatus(200);
+}
+
 module.exports = API;

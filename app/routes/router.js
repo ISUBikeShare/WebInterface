@@ -99,7 +99,10 @@ router
     })
 	.get('/blowitup', function(req, res){
 		API.blowitup(req, res);
-	});;
+	})
+    .get('/setupdemo', function(req, res) {
+        API.setupDemo(req, res);
+    });
 
 	
 module.exports = router;
