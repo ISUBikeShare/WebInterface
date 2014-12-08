@@ -9,12 +9,12 @@ API.checkOut = function (req, res) {
     //Get string data from card and send to other API - get studentID back
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
+    var bikeID = req.body.bikeID;
 
     //Look up if student currently has another bike out
     Dock.findOne({ dockID: dockID}, function(err, dock) {
         console.log(dock.bikeID);
 		if (err) res.send(err);
-		var bikeID = dock.bikeID;
 
         Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
             //callback function to create transaction
@@ -48,11 +48,11 @@ API.checkIn = function (req, res) {
 
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
+    var bikeID = req.body.bikeID;
 
         Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
 		if (err) res.send(err);
         console.log(bike);
-		var bikeID = bike.bikeID;
 
         Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
             //callback function to create transaction
