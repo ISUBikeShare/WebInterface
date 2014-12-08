@@ -22,7 +22,6 @@
 					<th>Dock ID</th>
 					<th>Location</th>
 					<th>Current Bike ID</th>
-					<th>Status</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -30,7 +29,6 @@
 					<td>{{ dock.dockID }}</td>
 					<td>South Side Library</td>
 					<td>{{ dock.bikeID }}</td>
-					<td>{{ dock.status }}</td>
 				</tr>
 				<tr ng-if="filterResults.length == 0">
 					<td colspan="6" style="text-align: center">No docks found</td>
