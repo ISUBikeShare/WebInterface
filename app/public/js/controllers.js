@@ -77,23 +77,29 @@ angular.module('BikeshareControllers', [])
 
 			$scope.setDamage = function(bikeID, isDamaged) {
 				if(isDamaged && confirm('Lock bike ' + bikeID + '?')){
-					api.BikeDamage.save({bikeID: bikeID, isDamaged: isDamaged},
-										function(response) {
-											$scope.getBikes();
-										},
-										function(response) {
-											$scope.getBikes();
-										}
+					api.BikeDamage.save(
+						{bikeID: bikeID, isDamaged: isDamaged},
+						function(response) {
+							$scope.getBikes();
+						},
+						function(response) {
+							//this is the error handler.
+							//it will need to do something different eventually
+							$scope.getBikes();
+						}
 					)
 				}
 				else if(!isDamaged && confirm('Unlock bike ' + bikeID + '?')){
-					api.BikeDamage.save({bikeID: bikeID, isDamaged: isDamaged},
-										function(response) {
-											$scope.getBikes();
-										},
-										function(response) {
-											$scope.getBikes();
-										}
+					api.BikeDamage.save(
+						{bikeID: bikeID, isDamaged: isDamaged},
+						function(response) {
+							$scope.getBikes();
+						},
+						function(response) {
+							//this is the error handler.
+							//it will need to do something different eventually
+							$scope.getBikes();
+						}
 					)
 				}
 			};
