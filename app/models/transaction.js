@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var transactionSchema = new Schema({
-    transactionID: Number,
+	transactionID: Number,
 	bikeID: Number,
 	dockID: Number,
 	studentID: Number,

@@ -110,21 +110,21 @@ angular.module('BikeshareControllers', [])
 			$scope.filteredResults = [];
 
 			$scope.getDocks = function() {
-                api.Docks.query(
-                    $scope.getDocksSuccessHandler,
-                    $scope.getDocksFailureHandler
-                )
+				api.Docks.query(
+					$scope.getDocksSuccessHandler,
+					$scope.getDocksFailureHandler
+				)
 			};
 
-            $scope.getDocksSuccessHandler = function(response) {
-                $scope.docks = response;
-            };
+			$scope.getDocksSuccessHandler = function(response) {
+				$scope.docks = response;
+			};
 
-            $scope.getDocksFailureHandler = function(response) {
-                $scope.failureText = 'There was an error in fetching docks. Please try again.'
-            };
+			$scope.getDocksFailureHandler = function(response) {
+				$scope.failureText = 'There was an error in fetching docks. Please try again.'
+			};
 
-            $scope.getDocks();
+			$scope.getDocks();
 		}
 	])
 
