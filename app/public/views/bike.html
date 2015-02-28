@@ -2,4 +2,53 @@
 	<div class="alert alert-danger" ng-if="failureText">
 		<i class="fa fa-exclamation-triangle"></i> {{ failureText }}
 	</div>
+	<div class="alert alert-success" ng-if="successText">
+		<i class="fa fa-check-circle-o"></i> {{ successText }}
+	</div>
+	<h2 class="sub-header">
+		Bikes
+		<input	position="inline"
+				id="searchBox"
+				placeholder="Filter"
+				class="pull-right form-control"
+				type="text"
+				ng-model="searchText"
+				ng-minlength="1"
+				style="width: 200px; font-weight: normal;">
+	</h2>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Bike ID</th>
+					<th>Dock ID</th>
+					<th>State</th>
+					<th>Locked</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="bike in bikes | filter: searchText as filterResults">
+					<td>{{ bike.bikeID }}</td>
+					<td>{{ bike.dockID }}</td>
+					<td>{{ bike.state }}</td>
+					<td>
+                        <i class="fa fa-lock" ng-if="bike.isDamaged"></i>
+                        <i class="fa fa-unlock" ng-if="!bike.isDamaged" style="opacity: .25"></i>
+					</td>
+					<td>
+						<a href="#" ng-if="!bike.isDamaged" ng-click="setDamage(bike.bikeID, true)">
+							<div class="fa fa-lock"></div> Lock
+						</a>
+						<a href="#" ng-if="bike.isDamaged" ng-click="setDamage(bike.bikeID, false)">
+							<div class="fa fa-unlock"></div> Unlock
+						</a>
+					</td>
+				</tr>
+				<tr ng-if="filterResults.length == 0">
+					<td colspan="6" style="text-align: center">No bikes found</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

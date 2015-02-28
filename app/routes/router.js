@@ -30,6 +30,10 @@ router
 
     })
 
+    .get('/findalldocks', function(req, res){
+        API.findAllDocks(req, res);
+    })
+
     //create a new dock (accessed at POST http://localhost:8080/api/createdock)
     .post('/createdock', function(req, res){
         API.createDock(req, res);
@@ -95,7 +99,10 @@ router
     })
 	.get('/blowitup', function(req, res){
 		API.blowitup(req, res);
-	});;
+	})
+    .get('/setupdemo', function(req, res) {
+        API.setupDemo(req, res);
+    });
 
 	
 module.exports = router;

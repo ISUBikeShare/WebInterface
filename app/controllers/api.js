@@ -4,37 +4,77 @@ var Bike = require('../models/bike');
 var Admin = require('../models/admin');
 var API = new Object();
 
-function save(req, res) {
-	// TODO
-    var transaction = new Transaction(); 		// create a new instance of the Transaction model
-    transaction.bikeID = req.body.bikeID;  		// set the transaction bikeId (comes from the request) number
-    transaction.dockID = req.body.dockID; //set the transaction dockID (comes from the request) number
-    transaction.studentID = req.body.studentID; //set the tranaction studentID (comes from the request) number
-    transaction.action = req.body.action;		//sets the action of the transaction (comes from the request) string
-    transaction.success = req.body.success;		// returns whether or not the transaction was a success (bool)
-
-
-    // save the transaction and check for errors
-    transaction.save();
-
-}
-
 API.checkOut = function (req, res) {
 	// TODO
     //Get string data from card and send to other API - get studentID back
+    var cardString = req.body.cardString;
+    var dockID = req.body.dockID;
+    var bikeID = req.body.bikeID;
+
     //Look up if student currently has another bike out
-    //If yes, do not unlock (return 401)
-    //If no, allow bike to be checked out and unlock
-    // ** Create Transaction **
-    // (return 200)
+    Dock.findOne({ dockID: dockID}, function(err, dock) {
+        console.log(dock.bikeID);
+		if (err) res.send(err);
+
+        Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
+            //callback function to create transaction
+            var transaction = new Transaction();
+            transaction.bikeID = bikeID;
+            transaction.dockID = dockID;
+            transaction.studentID = cardString;
+            transaction.action = 'out';
+            transaction.transactionID = object == null ? 1 : ++object.transactionID;
+            transaction.success = true;
+            transaction.save(function(err) {
+                //callback function to handle response
+                if (err) res.send(err);
+                    console.log(bikeID);
+                    console.log(dockID);
+                    Dock.update({dockID: dockID}, {bikeID: null}, function(err) {
+                        if (err) res.send(err);
+                    });
+
+                    Bike.update({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
+                        if (err) res.send(err);
+                    });
+                res.sendStatus(200);
+		    });
+        });
+    });
 };
 
 API.checkIn = function (req, res) {
 	// TODO
-    //Update dock to contain a bike
-    //Remove bike from studentID
-    //** Create Transaction **
-    //(return 200)
+
+    var cardString = req.body.cardString;
+    var dockID = req.body.dockID;
+    var bikeID = req.body.bikeID;
+
+        Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
+		if (err) res.send(err);
+        console.log(bike);
+
+        Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
+            //callback function to create transaction
+            var transaction = new Transaction();
+            transaction.bikeID = bikeID;
+            transaction.dockID = dockID;
+            transaction.studentID = cardString;
+            transaction.action = 'in';
+            transaction.transactionID = object == null ? 1 : ++object.transactionID;
+            transaction.success = true;
+            transaction.save(function(err) {
+                //callback function to handle response
+                if (err) res.send(err);
+
+                    Dock.update({dockID: dockID}, {state: 'in', bikeID: bikeID}, function(err) {
+                        if (err) res.send(err);
+                    });
+
+			        res.sendStatus(200);
+		    });
+        });
+    });
 
 };
 
@@ -48,7 +88,7 @@ API.createDock = function (req, res) {
 		//callback function to create dock
 		var dock = new Dock();
 		dock.location = null;
-		dock.bikeID = null;
+		dock.bikeID = 1;
 		dock.dockID = object == null ? 1 : ++object.dockID;
 		dock.status = true;
 		dock.save(function(err) {
@@ -63,6 +103,14 @@ API.createDock = function (req, res) {
 API.findDockStatus = function (req, res) {
 	var dockID = req.body.dockID;
 	//Need to talk to PI people on the best way to tackle this.
+};
+
+API.findAllDocks = function(req, res) {
+	Dock.find(function(err, docks) {
+		if (err) res.send(err);
+
+		res.json(docks);
+	})
 };
 
 API.setDockLocation = function (req, res) {
@@ -84,7 +132,7 @@ API.createBike = function (req, res){
 		var bike = new Bike();
 		bike.isDamaged = false; //FIX BOOLEAN
 		bike.state = 'in'; 		//FIX ENUM
-		bike.dockID = null;
+		bike.dockID = 1;
 		bike.bikeID = object == null ? 1 : ++object.bikeID;
 		bike.save(function(err) {
 			//callback function to handle response
@@ -180,5 +228,38 @@ API.blowitup = function (req, res){
 	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
 	res.sendStatus(200);
 };
+
+API.setupDemo = function(req, res) {
+    Bike.collection.remove(function () { console.log("Bike collection went Boom")});
+	Dock.collection.remove(function () { console.log("Dock collection is now exploded")});
+	Transaction.collection.remove(function () { console.log("Transaction collection? More like TNT collection")});
+	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
+
+    Bike.findOne().sort('-bikeID').select('bikeID').exec(function (err, object) {
+		//callback function to create bike
+		var bike = new Bike();
+		bike.isDamaged = false; //FIX BOOLEAN
+		bike.state = 'in'; 		//FIX ENUM
+		bike.dockID = 1;
+		bike.bikeID = object == null ? 1 : ++object.bikeID;
+		bike.save(function(err) {
+			//callback function to handle response
+			if (err) res.send(err);
+		});
+	});
+    Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
+		//callback function to create dock
+		var dock = new Dock();
+		dock.location = null;
+		dock.bikeID = 1;
+		dock.dockID = object == null ? 1 : ++object.dockID;
+		dock.status = true;
+		dock.save(function(err) {
+			//callback function to handle response
+			if (err) res.send(err);
+		});
+	});
+    res.sendStatus(200);
+}
 
 module.exports = API;

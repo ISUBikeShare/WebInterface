@@ -29,7 +29,7 @@
 					<td>{{ transaction.bikeID }}</td>
 					<td>{{ transaction.dockID }}</td>
 					<td>{{ transaction.studentID }}</td>
-					<td>{{ transaction.date }}</td>
+					<td>{{ transaction.date | date: 'yyyy-MM-dd hh:mm:ss a' }}</td>
 					<td>{{ transaction.action }}</td>
 					<td>{{ transaction.success }}</td>
 				</tr>

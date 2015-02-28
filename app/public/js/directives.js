@@ -22,4 +22,12 @@ angular.module('BikeshareDirectives', []).
 			replace: true,
 			templateUrl: '/dock.html'
 		}
+	}).
+	directive('damagedBikes', function() {
+		return {
+			controller: 'DamagedBikeCtrl',
+			restrict: 'E',
+			replace: true,
+			templateUrl: '/damagedbike.html'
+		}
 	});

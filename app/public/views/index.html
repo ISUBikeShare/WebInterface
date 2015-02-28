@@ -7,10 +7,10 @@
 	</head>
 
 	<body ng-controller="IndexCtrl">
-		<nav class="navbar navbar-inverse" role="navigation">
+		<nav class="navbar cyclone-cardinal" role="navigation">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="/">ISU Bikeshare Admin</a>
+					<a class="navbar-brand cyclone-gold" href="/">ISU Bikeshare Admin</a>
 				</div>
 			</div>
 		</nav>
@@ -20,7 +20,7 @@
 					<strong>Transactions</strong>
 				</li>
 				<li ng-class="{active: pageView == 'transactions'}">
-					<a ng-click="switchView('transactions')">View All Transactions</a>
+					<a ng-click="switchView('transactions')" href="#">View All Transactions</a>
 				</li>
 			</ul>
 			<ul class="nav nav-sidebar">
@@ -30,12 +30,6 @@
 				<li ng-class="{active: pageView == 'bikes'}">
 					<a ng-click="switchView('bikes')" href="#">View All Bikes</a>
 				</li>
-				<li>
-					<a href="#">Add New Bike</a>
-				</li>
-				<li>
-					<a href="#">Report Bike as Damaged</a>
-				</li>
 			</ul>
 			<ul class="nav nav-sidebar">
 				<li class="sub-header" style="padding-left: 20px">
@@ -44,12 +38,12 @@
 				<li ng-class="{active: pageView == 'docks'}">
 					<a ng-click="switchView('docks')" href="#">View All Docks</a>
 				</li>
-				<li>
-					<a href="#">Set Dock Location</a>
-				</li>
-				<li>
-					<a href="#">Add Dock</a>
-				</li>
+				<!--<li>-->
+					<!--<a href="#">Set Dock Location</a>-->
+				<!--</li>-->
+				<!--<li>-->
+					<!--<a href="#">Add Dock</a>-->
+				<!--</li>-->
 			</ul>
 		</div>
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -61,6 +55,9 @@
 			</div>
 			<div ng-if="pageView == 'docks'">
 				<manage-docks></manage-docks>
+			</div>
+			<div ng-if="pageView == 'damagedbikes'">
+				<damaged-bikes></damaged-bikes>
 			</div>
 		</div>
 	</body>

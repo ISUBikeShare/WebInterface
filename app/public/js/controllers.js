@@ -36,12 +36,105 @@ angular.module('BikeshareControllers', [])
 
 	.controller('BikeCtrl', ['$scope', 'api',
 		function($scope, api) {
-			$scope.failureText = 'Page needs to be implemented';
-		}])
+			$scope.failureText = '';
+			$scope.successText = '';
+			$scope.bikes = [];
+			$scope.searchText = '';
+			$scope.filteredResults = [];
+			$scope.bikePageView =
 
+			$scope.getBikes = function() {
+				api.Bikes.query(
+					$scope.bikeSuccessHandler,
+					$scope.bikeErrorHandler
+				)
+			};
+
+			$scope.bikeSuccessHandler = function(response) {
+				$scope.failureText = '';
+				$scope.bikes = response;
+			};
+
+			$scope.bikeErrorHandler = function(response) {
+				$scope.failureText = 'There was an error in fetching bikes. Please try again.';
+			};
+
+			$scope.addBike = function() {
+				api.AddBikes.save(
+					$scope.addBikeSuccessHandler,
+					$scope.addBikeErrorHandler
+				)
+			};
+
+			$scope.addBikeSuccessHandler = function(response) {
+				$scope.getBikes();
+				$scope.successText = 'Bike successfully added';
+			};
+
+			$scope.addBikeErrorHandler = function(response) {
+				$scope.failureText = 'There was an error in adding bike. Please try again.';
+			};
+
+			$scope.setDamage = function(bikeID, isDamaged) {
+				if(isDamaged && confirm('Lock bike ' + bikeID + '?')){
+					api.BikeDamage.save(
+						{bikeID: bikeID, isDamaged: isDamaged},
+						function(response) {
+							$scope.getBikes();
+						},
+						function(response) {
+							//this is the error handler.
+							//it will need to do something different eventually
+							$scope.getBikes();
+						}
+					)
+				}
+				else if(!isDamaged && confirm('Unlock bike ' + bikeID + '?')){
+					api.BikeDamage.save(
+						{bikeID: bikeID, isDamaged: isDamaged},
+						function(response) {
+							$scope.getBikes();
+						},
+						function(response) {
+							//this is the error handler.
+							//it will need to do something different eventually
+							$scope.getBikes();
+						}
+					)
+				}
+			};
+
+			$scope.getBikes();
+		}])
 
 	.controller('DockCtrl', ['$scope', 'api',
 		function($scope, api) {
-			$scope.failureText = 'Page needs to be implemented';
+			$scope.failureText = '';
+			$scope.successText = '';
+			$scope.docks = [];
+			$scope.searchText = '';
+			$scope.filteredResults = [];
+
+			$scope.getDocks = function() {
+				api.Docks.query(
+					$scope.getDocksSuccessHandler,
+					$scope.getDocksFailureHandler
+				)
+			};
+
+			$scope.getDocksSuccessHandler = function(response) {
+				$scope.docks = response;
+			};
+
+			$scope.getDocksFailureHandler = function(response) {
+				$scope.failureText = 'There was an error in fetching docks. Please try again.'
+			};
+
+			$scope.getDocks();
 		}
-	]);
+	])
+
+	.controller('DamagedBikeCtrl',  ['$scope', 'api',
+		function($scope, api) {
+
+		}]);
