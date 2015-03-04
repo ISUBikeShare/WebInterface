@@ -8,7 +8,7 @@ API.checkOut = function (req, res) {
 	// TODO
     //Get string data from card and send to other API - get studentID back
     var cardString = req.body.cardString;
-    var dockID = req.body.macAddress;
+    var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
 
     //Look up if student currently has another bike out
@@ -47,7 +47,7 @@ API.checkIn = function (req, res) {
 	// TODO
 
     var cardString = req.body.cardString;
-    var dockID = req.body.macAddress;
+    var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
 
         Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
@@ -81,7 +81,7 @@ API.checkIn = function (req, res) {
 API.createDock = function (req, res) {
 	var dock = new Dock();
 	dock.location = null;
-	dock.dockID = req.body.macAddress;
+	dock.dockID = req.body.dockID;
 	dock.bikeID = req.body.bikeID;
 	dock.status = true;
 	dock.save(function(err) {
@@ -91,7 +91,7 @@ API.createDock = function (req, res) {
 };
 
 API.findDockStatus = function (req, res) {
-	var dockID = req.body.macAddress
+	var dockID = req.body.dockID;
 };
 
 API.findAllDocks = function(req, res) {
@@ -103,7 +103,7 @@ API.findAllDocks = function(req, res) {
 };
 
 API.setDockLocation = function (req, res) {
-	var dockID = req.body.macAddress
+	var dockID = req.body.dockID
 	var location = req.body.location;
 	Dock.update({dockID: dockID}, {location: location}, function (err) {
 		if (err) res.send(err);
@@ -186,7 +186,7 @@ API.findBikeById = function (req, res){
 };
 
 API.findDockById = function (req, res){
-	var dockID = req.body.macAddress;
+	var dockID = req.body.dockID;
 	Dock.where({dockID: dockID}).findOne(function(err, dock) {
 		if (err) res.send(err);
 			
