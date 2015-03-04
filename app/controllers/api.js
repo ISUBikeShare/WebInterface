@@ -2,7 +2,7 @@ var Transaction = require('../models/transaction');
 var Dock = require('../models/dock');
 var Bike = require('../models/bike');
 var Admin = require('../models/admin');
-var ErrorReport = require('../models/error');
+var ErrorReport = require('../models/errorReport');
 var API = new Object();
 
 API.checkOut = function (req, res) {
