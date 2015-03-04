@@ -2,6 +2,7 @@ var Transaction = require('../models/transaction');
 var Dock = require('../models/dock');
 var Bike = require('../models/bike');
 var Admin = require('../models/admin');
+var ErrorReport = require('../models/error');
 var API = new Object();
 
 API.checkOut = function (req, res) {
@@ -204,6 +205,25 @@ API.findAllTransactions = function(req, res){
 
 API.findTransactionsByParamId = function(req, res){
 
+};
+
+
+API.findAllErrorReports = function(req, res){
+	API.createErrorReport("stack trace", "11");
+	Error.find(function(err, errors) {
+		if (err) res.send(err);
+
+		res.json(errors);
+	});
+};
+
+API.createErrorReport = function(stackTrace, dockID) {
+	var errorReport = new ErrorReport();
+	errorReport = stackTrace;
+	errorReport = dockID;
+	errorReport.save(function(err) {
+		console.log("Error created");
+	});
 };
 
 //Method used for debugging purposes
