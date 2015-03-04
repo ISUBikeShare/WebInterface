@@ -103,7 +103,7 @@ API.findAllDocks = function(req, res) {
 };
 
 API.setDockLocation = function (req, res) {
-	var dockID = req.body.dockID
+	var dockID = req.body.dockID;
 	var location = req.body.location;
 	Dock.update({dockID: dockID}, {location: location}, function (err) {
 		if (err) res.send(err);
