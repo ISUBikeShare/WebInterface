@@ -98,6 +98,10 @@ router
         API.findAllErrorReports(req, res)
     })
 	
+    .get('/finderrorreportsbydockid/:dockID', function (req, res){
+        API.findErorReportsByDockID(req, res);
+    })
+	
 	.get('/blowitup', function(req, res){
 		API.blowitup(req, res);
 	})
