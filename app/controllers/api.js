@@ -209,21 +209,18 @@ API.findTransactionsByParamId = function(req, res){
 
 
 API.findAllErrorReports = function(req, res){
-	API.createErrorReport("stack trace", "11");
-	Error.find(function(err, errors) {
+	ErrorReport.find(function(err, errorReports) {
 		if (err) res.send(err);
-
-		res.json(errors);
+		
+		res.json(errorReports);
 	});
 };
 
-API.createErrorReport = function(stackTrace, dockID) {
+API.createErrorReport = function(trace, id) {
 	var errorReport = new ErrorReport();
-	errorReport = stackTrace;
-	errorReport = dockID;
-	errorReport.save(function(err) {
-		console.log("Error created");
-	});
+	errorReport.stackTrace = trace;
+	errorReport.dockID = id;
+	errorReport.save();
 };
 
 //Method used for debugging purposes
@@ -232,6 +229,7 @@ API.blowitup = function (req, res){
 	Dock.collection.remove(function () { console.log("Dock collection is now exploded")});
 	Transaction.collection.remove(function () { console.log("Transaction collection? More like TNT collection")});
 	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
+	ErrorReport.collection.remove(function () { console.log("Now thats an error")});
 	res.sendStatus(200);
 };
 
