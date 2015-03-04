@@ -25,11 +25,6 @@ router
         API.checkIn(req, res);
 	})
 
-    // registers a dock (accessed at POST http://localhost:8080/api/register)
-    .post('/register', function (req, res){
-
-    })
-
     .get('/findalldocks', function(req, res){
         API.findAllDocks(req, res);
     })

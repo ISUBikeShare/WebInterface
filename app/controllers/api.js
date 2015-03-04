@@ -8,7 +8,7 @@ API.checkOut = function (req, res) {
 	// TODO
     //Get string data from card and send to other API - get studentID back
     var cardString = req.body.cardString;
-    var dockID = req.body.dockID;
+    var dockID = req.body.macAddress;
     var bikeID = req.body.bikeID;
 
     //Look up if student currently has another bike out
@@ -47,7 +47,7 @@ API.checkIn = function (req, res) {
 	// TODO
 
     var cardString = req.body.cardString;
-    var dockID = req.body.dockID;
+    var dockID = req.body.macAddress;
     var bikeID = req.body.bikeID;
 
         Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
@@ -78,31 +78,20 @@ API.checkIn = function (req, res) {
 
 };
 
-API.register = function (req, res) {
-	// TODO
-};
-
 API.createDock = function (req, res) {
-	//find largest dockID
-	Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
-		//callback function to create dock
-		var dock = new Dock();
-		dock.location = null;
-		dock.bikeID = 1;
-		dock.dockID = object == null ? 1 : ++object.dockID;
-		dock.status = true;
-		dock.save(function(err) {
-			//callback function to handle response
-			if (err) res.send(err);
-	
-			res.sendStatus(200);
-		});
+	var dock = new Dock();
+	dock.location = null;
+	dock.dockID = req.body.macAddress;
+	dock.bikeID = req.body.bikeID;
+	dock.status = true;
+	dock.save(function(err) {
+		if (err) res.send(err);
+		res.sendStatus(200);
 	});
 };
 
 API.findDockStatus = function (req, res) {
-	var dockID = req.body.dockID;
-	//Need to talk to PI people on the best way to tackle this.
+	var dockID = req.body.macAddress
 };
 
 API.findAllDocks = function(req, res) {
@@ -114,11 +103,9 @@ API.findAllDocks = function(req, res) {
 };
 
 API.setDockLocation = function (req, res) {
-	// TODO
-	var dockID = req.body.dockID;
+	var dockID = req.body.macAddress
 	var location = req.body.location;
 	Dock.update({dockID: dockID}, {location: location}, function (err) {
-		//callback function to handle response
 		if (err) res.send(err);
 	
 		res.sendStatus(200);
@@ -199,7 +186,7 @@ API.findBikeById = function (req, res){
 };
 
 API.findDockById = function (req, res){
-	var dockID = req.params.dockID;
+	var dockID = req.body.macAddress;
 	Dock.where({dockID: dockID}).findOne(function(err, dock) {
 		if (err) res.send(err);
 			
@@ -209,8 +196,7 @@ API.findDockById = function (req, res){
 
 API.findAllTransactions = function(req, res){
     Transaction.find(function(err, transactions) {
-		if (err)
-			res.send(err);
+		if (err) res.send(err);
 
 		res.json(transactions);
 	});

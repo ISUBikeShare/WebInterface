@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var dockSchema = new Schema({
-	dockID: Number,
+	dockID: String,
 	location: String,
 	bikeID: Number,
 	status: Boolean
