@@ -99,7 +99,7 @@ router
     })
 	
     .get('/finderrorreportsbydockid/:dockID', function (req, res){
-        API.findErorReportsByDockID(req, res);
+        API.findErrorReportsByDockID(req, res);
     })
 	
 	.get('/blowitup', function(req, res){
