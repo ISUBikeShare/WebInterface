@@ -29,4 +29,4 @@ Bike Share Web Server
 | Find all transactions | /api/findalltransactions | GET | N/A | {<br>{bikeID: number, dockID: number, studentID: number, date: Date, action: string, success: boolean},<br>...<br>} |
 | Find transactions by param ID | /api/findtransactionsbyparamid | POST | Optional params - number bikeID, number dockID, number studentID | {<br>{bikeID: number, dockID: number, studentID: number, date: Date, action: string, success: boolean},<br>...<br>} |
 | Find all error reports | /api/findallerrorreports | GET | N/A | {<br>{stackTrace: string, dockID: String, date: Date},<br>...<br>} |
-| Find error reports by param ID | /api/finderrorreportsbydockid/:dockID | POST | Inline Param | {<br>{stackTrace: string, dockID: String, date: Date},<br>...<br>} |
+| Find error reports by param ID | /api/finderrorreportsbydockid/:dockID | GET | Inline Param | {<br>{stackTrace: string, dockID: String, date: Date},<br>...<br>} |
