@@ -215,7 +215,7 @@ API.findAllErrorReports = function(req, res){
 		res.json(errorReports);
 	});
 };
-API.findErorReportsByDockID = function(req, res) {
+API.findErrorReportsByDockID = function(req, res) {
 	var dockID = req.params.dockID;
 	console.log(dockID);
 	ErrorReport.where({dockID: dockID}).find(function(err, errorReports) {
