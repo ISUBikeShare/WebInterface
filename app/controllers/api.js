@@ -186,7 +186,7 @@ API.findBikeById = function (req, res){
 };
 
 API.findDockById = function (req, res){
-	var dockID = req.body.dockID;
+	var dockID = req.params.dockID;
 	Dock.where({dockID: dockID}).findOne(function(err, dock) {
 		if (err) res.send(err);
 			
