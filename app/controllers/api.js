@@ -217,7 +217,6 @@ API.findAllErrorReports = function(req, res){
 };
 API.findErrorReportsByDockID = function(req, res) {
 	var dockID = req.params.dockID;
-	console.log(dockID);
 	ErrorReport.where({dockID: dockID}).find(function(err, errorReports) {
 		if (err) res.send(err);
 			
@@ -225,12 +224,18 @@ API.findErrorReportsByDockID = function(req, res) {
 	});
 };
 
-API.createErrorReport = function(trace, id) {
+API.createErrorReport = function(req, res) {
+	createErrorReport(req.body.trace, req.body.dockID, 'Client');
+	res.send(200);
+};
+
+function createErrorReport(trace, id, type){
 	var errorReport = new ErrorReport();
 	errorReport.stackTrace = trace;
 	errorReport.dockID = id;
+	errorReport.type = type;
 	errorReport.save();
-};
+}
 
 //Method used for debugging purposes
 API.blowitup = function (req, res){
