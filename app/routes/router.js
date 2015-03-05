@@ -92,6 +92,16 @@ router
     .get('/findalltransactionsbyparamid', function (req, res){
         API.findTransactionsByParamId(req, res)
     })
+	
+	// gets all the errors
+    .get('/findallerrorreports', function (req, res){
+        API.findAllErrorReports(req, res)
+    })
+	
+    .get('/finderrorreportsbydockid/:dockID', function (req, res){
+        API.findErrorReportsByDockID(req, res);
+    })
+	
 	.get('/blowitup', function(req, res){
 		API.blowitup(req, res);
 	})

@@ -2,6 +2,7 @@ var Transaction = require('../models/transaction');
 var Dock = require('../models/dock');
 var Bike = require('../models/bike');
 var Admin = require('../models/admin');
+var ErrorReport = require('../models/errorReport');
 var API = new Object();
 
 API.checkOut = function (req, res) {
@@ -206,12 +207,38 @@ API.findTransactionsByParamId = function(req, res){
 
 };
 
+
+API.findAllErrorReports = function(req, res){
+	ErrorReport.find(function(err, errorReports) {
+		if (err) res.send(err);
+		
+		res.json(errorReports);
+	});
+};
+API.findErrorReportsByDockID = function(req, res) {
+	var dockID = req.params.dockID;
+	console.log(dockID);
+	ErrorReport.where({dockID: dockID}).find(function(err, errorReports) {
+		if (err) res.send(err);
+			
+		res.json(errorReports);
+	});
+};
+
+API.createErrorReport = function(trace, id) {
+	var errorReport = new ErrorReport();
+	errorReport.stackTrace = trace;
+	errorReport.dockID = id;
+	errorReport.save();
+};
+
 //Method used for debugging purposes
 API.blowitup = function (req, res){
 	Bike.collection.remove(function () { console.log("Bike collection went Boom")});
 	Dock.collection.remove(function () { console.log("Dock collection is now exploded")});
 	Transaction.collection.remove(function () { console.log("Transaction collection? More like TNT collection")});
 	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
+	ErrorReport.collection.remove(function () { console.log("Now thats an error")});
 	res.sendStatus(200);
 };
 
