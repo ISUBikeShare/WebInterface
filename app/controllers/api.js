@@ -6,7 +6,6 @@ var ErrorReport = require('../models/errorReport');
 var API = new Object();
 
 API.checkOut = function (req, res) {
-	// TODO
     //Get string data from card and send to other API - get studentID back
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
@@ -14,10 +13,15 @@ API.checkOut = function (req, res) {
 
     //Look up if student currently has another bike out
     Dock.findOne({ dockID: dockID}, function(err, dock) {
-        console.log(dock.bikeID);
-		if (err) res.send(err);
-
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		}
         Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
+			if (err) {
+				createErrorReport(err, null, 'Server');
+				res.sendStatus(500);
+			}
             //callback function to create transaction
             var transaction = new Transaction();
             transaction.bikeID = bikeID;
@@ -28,33 +32,36 @@ API.checkOut = function (req, res) {
             transaction.success = true;
             transaction.save(function(err) {
                 //callback function to handle response
-                if (err) res.send(err);
-                    console.log(bikeID);
-                    console.log(dockID);
-                    Dock.update({dockID: dockID}, {bikeID: null}, function(err) {
-                        if (err) res.send(err);
-                    });
-
-                    Bike.update({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
-                        if (err) res.send(err);
-                    });
-                res.sendStatus(200);
+                if (err) {
+					createErrorReport(err, null, 'Server');
+					res.sendStatus(500);
+				}
+				Dock.update({dockID: dockID}, {bikeID: null}, function(err) {
+					if (err) {
+						createErrorReport(err, null, 'Server');
+						res.sendStatus(500);
+					}
+				});
+				Bike.update({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
+					if (err) {
+						createErrorReport(err, null, 'Server');
+						res.sendStatus(500);
+					}
+				});
 		    });
         });
     });
 };
 
 API.checkIn = function (req, res) {
-	// TODO
-
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
-
-        Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
-		if (err) res.send(err);
-        console.log(bike);
-
+    Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		}
         Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
             //callback function to create transaction
             var transaction = new Transaction();
@@ -65,18 +72,19 @@ API.checkIn = function (req, res) {
             transaction.transactionID = object == null ? 1 : ++object.transactionID;
             transaction.success = true;
             transaction.save(function(err) {
-                //callback function to handle response
-                if (err) res.send(err);
-
-                    Dock.update({dockID: dockID}, {state: 'in', bikeID: bikeID}, function(err) {
-                        if (err) res.send(err);
-                    });
-
-			        res.sendStatus(200);
+				if (err) {
+					createErrorReport(err, null, 'Server');
+					res.sendStatus(500);
+				}
+				Dock.update({dockID: dockID}, {state: 'in', bikeID: bikeID}, function(err) {
+					if (err) {
+						createErrorReport(err, null, 'Server');
+						res.sendStatus(500);
+					}
+				});
 		    });
         });
     });
-
 };
 
 API.createDock = function (req, res) {
@@ -86,8 +94,12 @@ API.createDock = function (req, res) {
 	dock.bikeID = req.body.bikeID;
 	dock.status = true;
 	dock.save(function(err) {
-		if (err) res.send(err);
-		res.sendStatus(200);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 };
 
@@ -97,9 +109,12 @@ API.findDockStatus = function (req, res) {
 
 API.findAllDocks = function(req, res) {
 	Dock.find(function(err, docks) {
-		if (err) res.send(err);
-
-		res.json(docks);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.json(docks);
+		}
 	})
 };
 
@@ -107,9 +122,12 @@ API.setDockLocation = function (req, res) {
 	var dockID = req.body.dockID;
 	var location = req.body.location;
 	Dock.update({dockID: dockID}, {location: location}, function (err) {
-		if (err) res.send(err);
-	
-		res.sendStatus(200);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 };
 
@@ -123,19 +141,24 @@ API.createBike = function (req, res){
 		bike.dockID = 1;
 		bike.bikeID = object == null ? 1 : ++object.bikeID;
 		bike.save(function(err) {
-			//callback function to handle response
-			if (err) res.send(err);
-	
-			res.sendStatus(200);
+			if (err) {
+				createErrorReport(err, null, 'Server');
+				res.sendStatus(500);
+			} else {
+				res.sendStatus(200);
+			}
 		});
 	});
 };
 
 API.findAllBikes = function (req, res) {
 	Bike.find(function (err, bikes) {
-		if(err) res.send(err);
-	
-		res.send(bikes);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.send(bikes);
+		}
 	});
 };
 
@@ -143,10 +166,12 @@ API.setBikeDamage = function (req, res){
 	var isDamaged = req.body.isDamaged;
 	var bikeID = req.body.bikeID;
 	Bike.update({bikeID: bikeID}, {isDamaged: isDamaged}, function (err) {
-		//callback function to handle response
-		if (err) res.send(err);
-	
-		res.sendStatus(200);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 };
 
@@ -154,52 +179,70 @@ API.createAdmin = function (req, res){
 	var admin = new Admin();
 	admin.cardString = req.body.cardString;
 	admin.save(function(err) {
-		if (err) res.send(err);
-	
-		res.sendStatus(200);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 };
 
 API.removeAdmin = function (req, res){
 	var cardString = req.body.cardString;
 	Admin.findOneAndRemove({'cardString': cardString}, function (err) {
-		if (err) res.send(err);
-		
-		res.sendStatus(200);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.sendStatus(200);
+		}
 	});
 };
 
 API.findAllAdmins = function (req, res){
 	Admin.find(function(err, admins) {
-		if (err) res.send(err);
-			
-		res.json(admins);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.json(admins);
+		}
 	})
 };
 
 API.findBikeById = function (req, res){
 	var bikeID = req.params.bikeID;
 	Bike.where({ bikeID: bikeID}).findOne(function(err, bike) {
-		if (err) res.send(err);
-			
-		res.json(bike);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.json(bike);
+		}
 	});
 };
 
 API.findDockById = function (req, res){
 	var dockID = req.params.dockID;
 	Dock.where({dockID: dockID}).findOne(function(err, dock) {
-		if (err) res.send(err);
-			
-		res.json(dock);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.json(dock);
+		}
 	});
 };
 
 API.findAllTransactions = function(req, res){
     Transaction.find(function(err, transactions) {
-		if (err) res.send(err);
-
-		res.json(transactions);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {
+			res.json(transactions);
+		}
 	});
 };
 
@@ -207,30 +250,43 @@ API.findTransactionsByParamId = function(req, res){
 
 };
 
-
 API.findAllErrorReports = function(req, res){
 	ErrorReport.find(function(err, errorReports) {
-		if (err) res.send(err);
-		
-		res.json(errorReports);
-	});
-};
-API.findErrorReportsByDockID = function(req, res) {
-	var dockID = req.params.dockID;
-	console.log(dockID);
-	ErrorReport.where({dockID: dockID}).find(function(err, errorReports) {
-		if (err) res.send(err);
-			
-		res.json(errorReports);
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {	
+			res.json(errorReports);
+		}
 	});
 };
 
-API.createErrorReport = function(trace, id) {
+API.findErrorReportsByDockID = function(req, res) {
+	var dockID = req.params.dockID;
+	ErrorReport.where({dockID: dockID}).find(function(err, errorReports) {
+		if (err) {
+			createErrorReport(err, null, 'Server');
+			res.sendStatus(500);
+		} else {	
+			res.json(errorReports);
+		}
+	});
+};
+
+API.createErrorReport = function(req, res) {
+	createErrorReport(req.body.trace, req.body.dockID, 'Client');
+	res.sendStatus(200);
+};
+
+function createErrorReport(trace, id, type){
 	var errorReport = new ErrorReport();
 	errorReport.stackTrace = trace;
-	errorReport.dockID = id;
+	if(id != null) {
+		errorReport.dockID = id;
+	}
+	errorReport.type = type;
 	errorReport.save();
-};
+}
 
 //Method used for debugging purposes
 API.blowitup = function (req, res){
@@ -257,7 +313,10 @@ API.setupDemo = function(req, res) {
 		bike.bikeID = object == null ? 1 : ++object.bikeID;
 		bike.save(function(err) {
 			//callback function to handle response
-			if (err) res.send(err);
+			if (err) {
+				createErrorReport(err, null, 'Server');
+				res.sendStatus(500);
+			}
 		});
 	});
     Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
@@ -269,10 +328,12 @@ API.setupDemo = function(req, res) {
 		dock.status = true;
 		dock.save(function(err) {
 			//callback function to handle response
-			if (err) res.send(err);
+			if (err) {
+				createErrorReport(err, null, 'Server');
+				res.sendStatus(500);
+			}
 		});
 	});
-    res.sendStatus(200);
 }
 
 module.exports = API;

@@ -102,6 +102,10 @@ router
         API.findErrorReportsByDockID(req, res);
     })
 	
+	.post('/createerrorreport', function (req, res){
+		API.createErrorReport(req, res);
+	})
+	
 	.get('/blowitup', function(req, res){
 		API.blowitup(req, res);
 	})
