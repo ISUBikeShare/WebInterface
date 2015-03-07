@@ -29,13 +29,13 @@ API.checkOut = function (req, res) {
 				createErrorReport(err, null, 'Server');
 				res.sendStatus(500);
 			} else if (validTransaction) {
-				Dock.update({dockID: dockID}, {bikeID: null}, function(err) {
+				Dock.findOneAndUpdate({dockID: dockID}, {bikeID: null}, function(err) {
 					if (err) {
 						createErrorReport(err, null, 'Server');
 						res.sendStatus(500);
 					}
 				});
-				Bike.update({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
+				Bike.findOneAndUpdate({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
 					if (err) {
 						createErrorReport(err, null, 'Server');
 						res.sendStatus(500);
