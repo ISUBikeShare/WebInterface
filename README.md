@@ -16,7 +16,7 @@ Bike Share Web Server
 | Name          | URL           |  Method | Param | Response|
 | --------|--------|-----| -----| -----|
 | Create dock | /api/createdock | POST | N/A | 200/500 HTTP |
-| Find dock status | /api/finddockstatus | GET | *number* dockID | { status: boolean} |  
+| Find dock status | /api/finddockstatus | GET | *String* dockID | { status: boolean} |  
 | Set dock location | /api/setdocklocation | POST | *string* location | 200/500 HTTP |
 | Create bike | /api/createbike | POST | N/A | 200/500 HTTP |
 | Set bike damage | /api/setbikedamage | POST | *number* bikeID, *boolean* isDamaged | 200/500 HTTP |
