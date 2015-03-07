@@ -6,36 +6,29 @@ var ErrorReport = require('../models/errorReport');
 var API = new Object();
 
 API.checkOut = function (req, res) {
-    //Get string data from card and send to other API - get studentID back
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
-
-    //Look up if student currently has another bike out
-    Dock.findOne({ dockID: dockID}, function(err, dock) {
+	// TODO - check for already checked out bike
+	var validTransaction = true;
+	Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
 		if (err) {
 			createErrorReport(err, null, 'Server');
 			res.sendStatus(500);
 		}
-        Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
+		var transaction = new Transaction();
+		transaction.bikeID = bikeID;
+		transaction.dockID = dockID;
+		transaction.studentID = cardString;
+		transaction.action = 'out';
+		transaction.transactionID = object == null ? 1 : ++object.transactionID;
+		transaction.success = validTransaction;
+		transaction.save(function(err) {
+			//callback function to handle response
 			if (err) {
 				createErrorReport(err, null, 'Server');
 				res.sendStatus(500);
-			}
-            //callback function to create transaction
-            var transaction = new Transaction();
-            transaction.bikeID = bikeID;
-            transaction.dockID = dockID;
-            transaction.studentID = cardString;
-            transaction.action = 'out';
-            transaction.transactionID = object == null ? 1 : ++object.transactionID;
-            transaction.success = true;
-            transaction.save(function(err) {
-                //callback function to handle response
-                if (err) {
-					createErrorReport(err, null, 'Server');
-					res.sendStatus(500);
-				}
+			} else if (validTransaction) {
 				Dock.update({dockID: dockID}, {bikeID: null}, function(err) {
 					if (err) {
 						createErrorReport(err, null, 'Server');
@@ -48,43 +41,50 @@ API.checkOut = function (req, res) {
 						res.sendStatus(500);
 					}
 				});
-		    });
-        });
-    });
+			}
+		});
+	});
+	res.sendStatus(200);
 };
 
 API.checkIn = function (req, res) {
+	// TODO -  Get the cardString from the bike
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
-    Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in'}, function(err, bike) {
-		if (err) {
-			createErrorReport(err, null, 'Server');
-			res.sendStatus(500);
-		}
-        Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
-            //callback function to create transaction
-            var transaction = new Transaction();
-            transaction.bikeID = bikeID;
-            transaction.dockID = dockID;
-            transaction.studentID = cardString;
-            transaction.action = 'in';
-            transaction.transactionID = object == null ? 1 : ++object.transactionID;
-            transaction.success = true;
-            transaction.save(function(err) {
+	//Mark transaction as a failure if we get an invalid bikeID back (i.e. NFC tag is damaged)
+	var validTransaction = !(bikeID == null || bikeID == undefined);
+	//Create a new Transaction
+	Transaction.findOne().sort('-transactionID').select('transactionID').exec(function (err, object) {
+		var transaction = new Transaction();
+		transaction.bikeID = bikeID;
+		transaction.dockID = dockID;
+		transaction.studentID = cardString;
+		transaction.action = 'in';
+		transaction.transactionID = object == null ? 1 : ++object.transactionID;
+		transaction.success = validTransaction;
+		transaction.save(function(err) {
+			if (err) {
+				createErrorReport(err, null, 'Server');
+				res.sendStatus(500);
+			}
+			//Update Dock
+			Dock.findOneAndUpdate({dockID: dockID}, {bikeID: bikeID, state: 'in', status: !validTransaction}, function(err) {
 				if (err) {
 					createErrorReport(err, null, 'Server');
 					res.sendStatus(500);
 				}
-				Dock.update({dockID: dockID}, {state: 'in', bikeID: bikeID}, function(err) {
-					if (err) {
-						createErrorReport(err, null, 'Server');
-						res.sendStatus(500);
-					}
-				});
-		    });
-        });
-    });
+			});
+			//Update Bike
+			Bike.findOneAndUpdate({cardString: cardString}, { dockID: dockID, state: 'in', isDamaged: !validTransaction, cardString: null}, function(err, bike) {
+				if (err) {
+					createErrorReport(err, null, 'Server');
+					res.sendStatus(500);
+				}
+			});
+		});
+	});
+	res.sendStatus(200);	
 };
 
 API.createDock = function (req, res) {
@@ -299,41 +299,27 @@ API.blowitup = function (req, res){
 };
 
 API.setupDemo = function(req, res) {
-    Bike.collection.remove(function () { console.log("Bike collection went Boom")});
+	//clear all data
+	Bike.collection.remove(function () { console.log("Bike collection went Boom")});
 	Dock.collection.remove(function () { console.log("Dock collection is now exploded")});
 	Transaction.collection.remove(function () { console.log("Transaction collection? More like TNT collection")});
 	Admin.collection.remove(function () { console.log("Admin collection went kaboom")});
-
-    Bike.findOne().sort('-bikeID').select('bikeID').exec(function (err, object) {
-		//callback function to create bike
-		var bike = new Bike();
-		bike.isDamaged = false; //FIX BOOLEAN
-		bike.state = 'in'; 		//FIX ENUM
-		bike.dockID = 1;
-		bike.bikeID = object == null ? 1 : ++object.bikeID;
-		bike.save(function(err) {
-			//callback function to handle response
-			if (err) {
-				createErrorReport(err, null, 'Server');
-				res.sendStatus(500);
-			}
-		});
-	});
-    Dock.findOne().sort('-dockID').select('dockID').exec(function (err, object) {
-		//callback function to create dock
-		var dock = new Dock();
-		dock.location = null;
-		dock.bikeID = 1;
-		dock.dockID = object == null ? 1 : ++object.dockID;
-		dock.status = true;
-		dock.save(function(err) {
-			//callback function to handle response
-			if (err) {
-				createErrorReport(err, null, 'Server');
-				res.sendStatus(500);
-			}
-		});
-	});
+	ErrorReport.collection.remove(function () { console.log("Now thats an error")});
+	//create a bike in a dock
+	var bike = new Bike();
+	bike.isDamaged = false;
+	bike.state = 'in';
+	bike.dockID = 1;
+	bike.bikeID = 1;
+	bike.save(function (err) { if(err) res.send(err)});
+	//create a dock with a bike in it
+	var dock = new Dock();
+	dock.location = "Friley Hall";
+	dock.bikeID = 1;
+	dock.dockID = 1;
+	dock.status = true;
+	dock.save(function (err) { if(err) res.send(err)});
+	res.send(200);
 }
 
 module.exports = API;

@@ -9,7 +9,7 @@ var transactionSchema = new Schema({
 	transactionID: Number,
 	bikeID: Number,
 	dockID: String,
-	studentID: Number,
+	studentID: String,
 	date: {type: Date, default: Date.now},
 	action: {type: String, enum: ['in', 'out']},
 	success: Boolean
