@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var transactionSchema = new Schema({
 	transactionID: Number,
 	bikeID: Number,
-	dockID: Number,
+	dockID: String,
 	studentID: Number,
 	date: {type: Date, default: Date.now},
 	action: {type: String, enum: ['in', 'out']},
