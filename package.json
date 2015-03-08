@@ -1,18 +1,18 @@
 {
-	"name": "BikeShare",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/ISUBikeShare/WebInterface.git"
-	},
-	"main": "server.js",
-	"dependencies": {
-		"express": "^4.2.0",
-		"mongoose": "^3.8.8",
-		"body-parser": "^1.2.0",
-		"jquery": "^2.1.1",
-		"bootstrap": "^3.3.0",
-		"angular": "^1.3.2",
-		"angular-resource": "^1.3.3",
-		"font-awesome": "^4.2.0"
-	}
+    "name": "BikeShare",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ISUBikeShare/WebInterface.git"
+    },
+    "main": "server.js",
+    "dependencies": {
+        "express": "^4.2.0",
+        "mongoose": "^3.8.8",
+        "body-parser": "^1.2.0",
+        "jquery": "^2.1.1",
+        "bootstrap": "^3.3.0",
+        "angular": "^1.3.2",
+        "angular-resource": "^1.3.3",
+        "font-awesome": "^4.2.0"
+    }
 }
