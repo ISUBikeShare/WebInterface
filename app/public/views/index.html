@@ -10,69 +10,69 @@
 <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css"/>
 
 <html ng-app="BikeshareApp">
-	<head>
-		<title>ISU BikeShare</title>
-		<link rel="stylesheet" type="text/css" href="main.css"/>
-	</head>
+    <head>
+        <title>ISU BikeShare</title>
+        <link rel="stylesheet" type="text/css" href="main.css"/>
+    </head>
 
-	<body ng-controller="IndexCtrl">
-		<nav class="navbar cyclone-cardinal" role="navigation">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand cyclone-gold" href="/">ISU Bikeshare Admin</a>
-				</div>
-			</div>
-		</nav>
-		<div class="col-sm-3 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
-				<li class="sub-header" style="padding-left: 20px">
-					<strong>Transactions</strong>
-				</li>
-				<li ng-class="{active: pageView == 'transactions'}">
-					<a ng-click="switchView('transactions')" href="#">View All Transactions</a>
-				</li>
-			</ul>
-			<ul class="nav nav-sidebar">
-				<li class="sub-header" style="padding-left: 20px">
-					<strong>Bikes</strong>
-				</li>
-				<li ng-class="{active: pageView == 'bikes'}">
-					<a ng-click="switchView('bikes')" href="#">View All Bikes</a>
-				</li>
-			</ul>
-			<ul class="nav nav-sidebar">
-				<li class="sub-header" style="padding-left: 20px">
-					<strong>Docks</strong>
-				</li>
-				<li ng-class="{active: pageView == 'docks'}">
-					<a ng-click="switchView('docks')" href="#">View All Docks</a>
-				</li>
-			</ul>
-			<ul class="nav nav-sidebar">
-				<li class="sub-header" style="padding-left: 20px">
-					<strong>Errors</strong>
-				</li>
-				<li ng-class="{active: pageView == 'errors'}">
-					<a ng-click="switchView('errors')" href="#">Error Report</a>
-				</li>
-			</ul>
-		</div>
-		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-			<div ng-if="pageView == 'transactions'">
-				<manage-transactions></manage-transactions>
-			</div>
-			<div ng-if="pageView == 'bikes'">
-				<manage-bikes></manage-bikes>
-			</div>
-			<div ng-if="pageView == 'docks'">
-				<manage-docks></manage-docks>
-			</div>
-			<div ng-if="pageView == 'damagedbikes'">
-				<damaged-bikes></damaged-bikes>
-			</div>
-			<div ng-if="pageView == 'errors'">
-				<error-report></error-report>
-			</div>
-		</div>
-	</body>
+    <body ng-controller="IndexCtrl">
+        <nav class="navbar cyclone-cardinal" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand cyclone-gold" href="/">ISU Bikeshare Admin</a>
+                </div>
+            </div>
+        </nav>
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="sub-header" style="padding-left: 20px">
+                    <strong>Transactions</strong>
+                </li>
+                <li ng-class="{active: pageView == 'transactions'}">
+                    <a ng-click="switchView('transactions')" href="#">View All Transactions</a>
+                </li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="sub-header" style="padding-left: 20px">
+                    <strong>Bikes</strong>
+                </li>
+                <li ng-class="{active: pageView == 'bikes'}">
+                    <a ng-click="switchView('bikes')" href="#">View All Bikes</a>
+                </li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="sub-header" style="padding-left: 20px">
+                    <strong>Docks</strong>
+                </li>
+                <li ng-class="{active: pageView == 'docks'}">
+                    <a ng-click="switchView('docks')" href="#">View All Docks</a>
+                </li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="sub-header" style="padding-left: 20px">
+                    <strong>Errors</strong>
+                </li>
+                <li ng-class="{active: pageView == 'errors'}">
+                    <a ng-click="switchView('errors')" href="#">Error Report</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div ng-if="pageView == 'transactions'">
+                <manage-transactions></manage-transactions>
+            </div>
+            <div ng-if="pageView == 'bikes'">
+                <manage-bikes></manage-bikes>
+            </div>
+            <div ng-if="pageView == 'docks'">
+                <manage-docks></manage-docks>
+            </div>
+            <div ng-if="pageView == 'damagedbikes'">
+                <damaged-bikes></damaged-bikes>
+            </div>
+            <div ng-if="pageView == 'errors'">
+                <error-report></error-report>
+            </div>
+        </div>
+    </body>
 </html>

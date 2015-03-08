@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var adminSchema = new Schema({
-	cardString: Number
+    cardString: Number
 });
 
 module.exports = mongoose.model('Admin', adminSchema);

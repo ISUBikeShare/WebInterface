@@ -1,29 +1,29 @@
 // ROUTES FOR OUR API
 // =============================================================================
-var express    	= require('express'); 		// call express
-var router		= express.Router(); 		// get an instance of the express Router
-var API 		= require('../controllers/api');
+var express = require('express'); 		// call express
+var router = express.Router(); 		// get an instance of the express Router
+var API = require('../controllers/api');
 
 router.use(function(req, res, next) {
-	console.log('HTTP request received with params: ' + JSON.stringify(req.body));
-	next(); // make sure we go to the next routes and don't stop here
+    console.log('HTTP request received with params: ' + JSON.stringify(req.body));
+    next(); // make sure we go to the next routes and don't stop here
 });
 
 // more routes for our API will happen here
 router
-	//Go to home page
-	.get('/view/index', function(req, res) {
-		res.sendFile(__dirname + '/app/views/index.html');
-	})
-	// create a transaction (accessed at POST http://localhost:8080/api/checkOut)
-	.post('/checkout', function(req, res) {
+    //Go to home page
+    .get('/view/index', function(req, res) {
+        res.sendFile(__dirname + '/app/views/index.html');
+    })
+    // create a transaction (accessed at POST http://localhost:8080/api/checkOut)
+    .post('/checkout', function(req, res) {
         API.checkOut(req, res);
-	})
+    })
 
     // create a transaction (accessed at POST http://localhost:8080/api/checkIn)
-	.post('/checkin', function(req, res) {
+    .post('/checkin', function(req, res) {
         API.checkIn(req, res);
-	})
+    })
 
     .get('/findalldocks', function(req, res){
         API.findAllDocks(req, res);
@@ -44,10 +44,10 @@ router
         API.setDockLocation(req, res);
     })
 
-	.get('/findallbikes', function (req, res) {
-		API.findAllBikes(req, res);
-	})
-	
+    .get('/findallbikes', function (req, res) {
+        API.findAllBikes(req, res);
+    })
+
     // Creates a bike (accessed at POST http://localhost:8080/api/createbike)
     .post('/createbike', function (req, res) {
         API.createBike(req, res);
@@ -60,7 +60,7 @@ router
 
     //Creates a new admin (accessed at POST http://localhost:8080/api/createadmin)
     .post('/createadmin', function (req, res) {
-		API.createAdmin(req, res);
+        API.createAdmin(req, res);
     })
 
     //Removes an admin from the system (accessed at POST http://localhost:8080/api/removeadmin)
@@ -92,26 +92,25 @@ router
     .get('/findalltransactionsbyparamid', function (req, res){
         API.findTransactionsByParamId(req, res)
     })
-	
-	// gets all the errors
+
+    // gets all the errors
     .get('/findallerrorreports', function (req, res){
         API.findAllErrorReports(req, res)
     })
-	
+
     .get('/finderrorreportsbydockid/:dockID', function (req, res){
         API.findErrorReportsByDockID(req, res);
     })
-	
-	.post('/createerrorreport', function (req, res){
-		API.createErrorReport(req, res);
-	})
-	
-	.get('/blowitup', function(req, res){
-		API.blowitup(req, res);
-	})
+
+    .post('/createerrorreport', function (req, res){
+        API.createErrorReport(req, res);
+    })
+
+    .get('/blowitup', function(req, res){
+        API.blowitup(req, res);
+    })
     .get('/setupdemo', function(req, res) {
         API.setupDemo(req, res);
     });
 
-	
 module.exports = router;
