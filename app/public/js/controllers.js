@@ -134,7 +134,25 @@ angular.module('BikeshareControllers', [])
 		}
 	])
 
-	.controller('DamagedBikeCtrl',  ['$scope', 'api',
-		function($scope, api) {
+    .controller('ErrorReportCtrl', ['$scope', 'api',
+        function($scope, api) {
+            $scope.errorTypeFilter = '';
 
-		}]);
+            $scope.getErrors = function() {
+                api.ErrorReport.query(
+                    $scope.getErrorsSuccessHandler,
+                    $scope.getErrorsFailureHandler
+                )
+            };
+
+            $scope.getErrorsSuccessHandler = function(response) {
+                $scope.errors = response;
+            };
+
+            $scope.getErrorsFailureHandler = function(response) {
+                $scope.failureText = 'There was an error in fetching error reports. Please try again.'
+            };
+
+            $scope.getErrors();
+        }
+    ]);

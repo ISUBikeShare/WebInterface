@@ -1,0 +1,45 @@
+<div>
+    <div class="alert alert-danger" ng-if="failureText">
+        <i class="fa fa-exclamation-triangle"></i> {{ failureText }}
+    </div>
+    <h2 class="sub-header">
+        Error Report
+        <input	position="inline"
+                id="searchBox"
+                placeholder="Filter"
+                class="pull-right form-control"
+                type="text"
+                ng-model="searchText"
+                ng-minlength="1"
+                style="width: 200px; font-weight: normal;">
+        <div class="btn-group pull-right" style="padding-right: 10px;">
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == ''}" ng-click="errorTypeFilter = ''">All</div>
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Client'}" ng-click="errorTypeFilter = 'Client'">Client</div>
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Server'}" ng-click="errorTypeFilter = 'Server'">Server</div>
+        </div>
+    </h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Stack Trace</th>
+                    <th>Dock ID (if Client)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="error in errors | filter: searchText as filterResults"
+                    ng-if="!errorTypeFilter || error.type == errorTypeFilter">
+                    <td>{{ error.date | date: 'yyyy-MM-dd hh:mm:ss a' }}</td>
+                    <td>{{ error.type }}</td>
+                    <td>{{ error.stackTrace }}</td>
+                    <td>{{ error.dockID }}</td>
+                </tr>
+                <tr ng-if="filterResults.length == 0">
+                    <td colspan="6" style="text-align: center">No errors found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
