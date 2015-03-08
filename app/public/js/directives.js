@@ -23,11 +23,11 @@ angular.module('BikeshareDirectives', []).
 			templateUrl: '/dock.html'
 		}
 	}).
-	directive('damagedBikes', function() {
-		return {
-			controller: 'DamagedBikeCtrl',
-			restrict: 'E',
-			replace: true,
-			templateUrl: '/damagedbike.html'
-		}
-	});
+    directive('errorReport', function() {
+       return {
+            controller: 'ErrorReportCtrl',
+            restrict: 'E',
+            replace: true,
+            templateUrl: '/errorReport.html'
+        }
+    });
