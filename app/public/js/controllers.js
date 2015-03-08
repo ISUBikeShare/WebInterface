@@ -150,7 +150,7 @@ angular.module('BikeshareControllers', [])
             };
 
             $scope.getErrorsFailureHandler = function(response) {
-                $scope.failureText = 'There was an error in fetching errors (how ironic). Please try again.'
+                $scope.failureText = 'There was an error in fetching error reports. Please try again.'
             };
 
             $scope.getErrors();
