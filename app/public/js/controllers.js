@@ -16,17 +16,20 @@ angular.module('BikeshareControllers', [])
             $scope.filteredResults = [];
 
             $scope.getTransactions = function() {
+                $scope.loadingTransactions = true;
                 api.Transactions.query(
                     $scope.transactionSuccessHandler,
                     $scope.transactionErrorHandler);
             };
 
             $scope.transactionSuccessHandler = function(response) {
+                $scope.loadingTransactions = false;
                 $scope.failureText = '';
                 $scope.transactions = response;
             };
 
             $scope.transactionErrorHandler = function(response) {
+                $scope.loadingTransactions = false;
                 $scope.failureText = 'There was an error in fetching transactions. Please try again.';
             };
 
@@ -44,6 +47,7 @@ angular.module('BikeshareControllers', [])
             $scope.bikePageView =
 
             $scope.getBikes = function() {
+                $scope.loadingBikes = true;
                 api.Bikes.query(
                     $scope.bikeSuccessHandler,
                     $scope.bikeErrorHandler
@@ -51,11 +55,13 @@ angular.module('BikeshareControllers', [])
             };
 
             $scope.bikeSuccessHandler = function(response) {
+                $scope.loadingBikes = false;
                 $scope.failureText = '';
                 $scope.bikes = response;
             };
 
             $scope.bikeErrorHandler = function(response) {
+                $scope.loadingBikes = false;
                 $scope.failureText = 'There was an error in fetching bikes. Please try again.';
             };
 
@@ -116,6 +122,7 @@ angular.module('BikeshareControllers', [])
             $scope.filteredResults = [];
 
             $scope.getDocks = function() {
+                $scope.loadingDocks = true;
                 api.Docks.query(
                     $scope.getDocksSuccessHandler,
                     $scope.getDocksFailureHandler
@@ -123,10 +130,12 @@ angular.module('BikeshareControllers', [])
             };
 
             $scope.getDocksSuccessHandler = function(response) {
+                $scope.loadingDocks = false;
                 $scope.docks = response;
             };
 
             $scope.getDocksFailureHandler = function(response) {
+                $scope.loadingDocks = false;
                 $scope.failureText = 'There was an error in fetching docks. Please try again.'
             };
 
@@ -139,6 +148,7 @@ angular.module('BikeshareControllers', [])
             $scope.errorTypeFilter = '';
 
             $scope.getErrors = function() {
+                $scope.loadingErrors = true;
                 api.ErrorReport.query(
                     $scope.getErrorsSuccessHandler,
                     $scope.getErrorsFailureHandler
@@ -146,10 +156,12 @@ angular.module('BikeshareControllers', [])
             };
 
             $scope.getErrorsSuccessHandler = function(response) {
+                $scope.loadingErrors = false;
                 $scope.errors = response;
             };
 
             $scope.getErrorsFailureHandler = function(response) {
+                $scope.loadingErrors = false
                 $scope.failureText = 'There was an error in fetching error reports. Please try again.'
             };
 

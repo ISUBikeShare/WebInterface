@@ -29,6 +29,11 @@
                 </tr>
             </thead>
             <tbody>
+                <tr ng-if="loadingErrors">
+                    <td colspan="6" style="text-align: center">
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </td>
+                </tr>
                 <tr ng-repeat="error in errors | filter: searchText as filterResults"
                     ng-if="!errorTypeFilter || error.type == errorTypeFilter">
                     <td>{{ error.date | date: 'yyyy-MM-dd hh:mm:ss a' }}</td>
@@ -36,7 +41,7 @@
                     <td>{{ error.stackTrace }}</td>
                     <td>{{ error.dockID }}</td>
                 </tr>
-                <tr ng-if="filterResults.length == 0">
+                <tr ng-if="filterResults.length == 0 && !loadingErrors">
                     <td colspan="6" style="text-align: center">No errors found</td>
                 </tr>
             </tbody>
