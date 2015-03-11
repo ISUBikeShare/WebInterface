@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var dockSchema = new Schema({
     dockID: String,
     location: String,
-    bikeID: Number,
+    bikeID: String,
     status: Boolean
 });
 

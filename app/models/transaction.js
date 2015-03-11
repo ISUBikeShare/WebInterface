@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 var transactionSchema = new Schema({
     transactionID: Number,
-    bikeID: Number,
+    bikeID: String,
     dockID: String,
     studentID: String,
     date: {type: Date, default: Date.now},

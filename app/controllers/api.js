@@ -146,8 +146,8 @@ API.createBike = function (req, res){
         var bike = new Bike();
         bike.isDamaged = false; //FIX BOOLEAN
         bike.state = 'in'; 		//FIX ENUM
-        bike.dockID = 1;
-        bike.bikeID = object == null ? 1 : ++object.bikeID;
+        bike.dockID = req.body.dockID;;
+        bike.bikeID = req.body.bikeID;;
         bike.save(function(err) {
             if (err) {
                 createErrorReport(err, null, 'Server');

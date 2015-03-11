@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var bikeSchema = new Schema({
-    bikeID: Number,
+    bikeID: String,
     dockID: String,
     cardString: String,
     state: {type: String, enum: ['in', 'out', 'maintenance']},
