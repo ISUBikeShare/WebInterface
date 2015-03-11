@@ -25,6 +25,11 @@
                 </tr>
             </thead>
             <tbody>
+                <tr ng-if="loadingTransactions">
+                    <td colspan="6" style="text-align: center">
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </td>
+                </tr>
                 <tr ng-repeat="transaction in transactions | filter:searchText as filterResults">
                     <td>{{ transaction.bikeID }}</td>
                     <td>{{ transaction.dockID }}</td>
@@ -33,7 +38,7 @@
                     <td>{{ transaction.action }}</td>
                     <td>{{ transaction.success }}</td>
                 </tr>
-                <tr ng-if="filterResults.length == 0">
+                <tr ng-if="filterResults.length == 0 && !loadingTransactions">
                     <td colspan="6" style="text-align: center">No transactions found</td>
                 </tr>
             </tbody>
