@@ -325,28 +325,28 @@ API.setupDemo = function(req, res) {
     var bike = new Bike();
     bike.isDamaged = false;
     bike.state = 'in';
-    bike.dockID = 1;
-    bike.bikeID = 1;
+    bike.dockID = "202481599488101";
+    bike.bikeID = "6A004A1589BC";
     bike.save(function (err) { if(err) res.send(err)});
 
     var bike = new Bike();
     bike.isDamaged = false;
     bike.state = 'in';
-    bike.dockID = 2;
-    bike.bikeID = 2;
+    bike.dockID = "2";
+    bike.bikeID = "6A0049EE509D";
     bike.save(function (err) { if(err) res.send(err)});
     //create a dock with a bike in it
     var dock = new Dock();
     dock.location = "Friley Hall";
-    dock.bikeID = 1;
-    dock.dockID = 1;
+    dock.bikeID = "202481599488101";
+    dock.dockID = "6A004A1589BC";
     dock.status = true;
     dock.save(function (err) { if(err) res.send(err)});
 
     var dock = new Dock();
     dock.location = "Maple Willow Larch";
-    dock.bikeID = 2;
-    dock.dockID = 2;
+    dock.bikeID = "6A0049EE509D";
+    dock.dockID = "2";
     dock.status = true;
     dock.save(function (err) { if(err) res.send(err)});
 
