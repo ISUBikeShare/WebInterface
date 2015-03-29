@@ -9,7 +9,7 @@ API.checkOut = function (req, res) {
     var cardString = req.body.cardString;
     var dockID = req.body.dockID;
     var bikeID = req.body.bikeID;
-    // TODO - check for already checked out bike
+    //check for already checked out bike
     Bike.findOne({cardString: cardString}, function (err, bike) {
     //null if no bike exists
     var validTransaction = bike == null;
@@ -17,6 +17,7 @@ API.checkOut = function (req, res) {
         if (err) {
             createErrorReport(err, null, 'Server');
             res.sendStatus(500);
+            return;
         }
         var transaction = new Transaction();
         transaction.bikeID = bikeID;
@@ -30,22 +31,26 @@ API.checkOut = function (req, res) {
             if (err) {
                 createErrorReport(err, null, 'Server');
                 res.sendStatus(500);
+                return;
             } else if (validTransaction) {
                 res.sendStatus(200);
                 Dock.findOneAndUpdate({dockID: dockID}, {bikeID: null}, function(err) {
                     if (err) {
                         createErrorReport(err, null, 'Server');
                         res.sendStatus(500);
+                        return;
                     }
                 });
                 Bike.findOneAndUpdate({bikeID: bikeID}, {state: 'out', dockID: null, cardString: cardString}, function(err) {
                     if (err) {
                         createErrorReport(err, null, 'Server');
                         res.sendStatus(500);
+                        return;
                     }
                 });
             } else {
                 res.sendStatus(400);
+                return;
             }
         });
     });
@@ -74,12 +79,14 @@ API.checkIn = function (req, res) {
                 if (err) {
                     createErrorReport(err, null, 'Server');
                     res.sendStatus(500);
+                    return;
                 }
                 //Update Dock
                 Dock.findOneAndUpdate({dockID: dockID}, {bikeID: bikeID, state: 'in', status: validTransaction}, function(err) {
                     if (err) {
                         createErrorReport(err, null, 'Server');
                         res.sendStatus(500);
+                        return;
                     }
                 });
                 //Update Bike
@@ -87,6 +94,7 @@ API.checkIn = function (req, res) {
                     if (err) {
                         createErrorReport(err, null, 'Server');
                         res.sendStatus(500);
+                        return;
                     }
                 });
             });
