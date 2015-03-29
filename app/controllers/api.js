@@ -331,8 +331,8 @@ API.setupDemo = function(req, res) {
 
     var bike = new Bike();
     bike.isDamaged = false;
-    bike.state = 'in';
-    bike.dockID = "2";
+    bike.state = 'out';
+    bike.dockID = null;
     bike.bikeID = "6A0049EE509D";
     bike.save(function (err) { if(err) res.send(err)});
     //create a dock with a bike in it
@@ -343,13 +343,14 @@ API.setupDemo = function(req, res) {
     dock.status = true;
     dock.save(function (err) { if(err) res.send(err)});
 
+/**
     var dock = new Dock();
     dock.location = "Maple Willow Larch";
     dock.bikeID = "6A0049EE509D";
     dock.dockID = "2";
     dock.status = true;
     dock.save(function (err) { if(err) res.send(err)});
-
+*/
     res.sendStatus(200);
 };
 
