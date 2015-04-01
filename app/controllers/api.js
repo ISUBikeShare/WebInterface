@@ -106,6 +106,8 @@ API.checkIn = function (req, res) {
 API.createDock = function (req, res) {
     var dock = new Dock();
     dock.location = null;
+    if(req.body.location != null)
+        dock.location = req.body.location;
     dock.dockID = req.body.dockID;
     dock.bikeID = req.body.bikeID;
     dock.status = true;
@@ -154,8 +156,10 @@ API.createBike = function (req, res){
         var bike = new Bike();
         bike.isDamaged = false; //FIX BOOLEAN
         bike.state = 'in'; 		//FIX ENUM
-        bike.dockID = req.body.dockID;;
-        bike.bikeID = req.body.bikeID;;
+        if(req.body.dockID == null)
+            bike.state = 'out';
+        bike.dockID = req.body.dockID;
+        bike.bikeID = req.body.bikeID;
         bike.save(function(err) {
             if (err) {
                 createErrorReport(err, null, 'Server');
