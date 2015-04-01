@@ -7,6 +7,9 @@
     </div>
     <h2 class="sub-header">
         Bikes
+        <div class="btn btn-primary" title="Add New Bike" data-toggle="modal" data-target="#addBikeModal" ng-click="addBikeErrorText = '';">
+            <div class="fa fa-plus"></div>
+        </div>
         <input	position="inline"
                 id="searchBox"
                 placeholder="Filter"
@@ -24,7 +27,6 @@
                     <th>Dock ID</th>
                     <th>State</th>
                     <th>Locked</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,10 +45,10 @@
                     </td>
                     <td>
                         <a href="#" ng-if="!bike.isDamaged" ng-click="setDamage(bike.bikeID, true)">
-                            <div class="fa fa-lock"></div> Lock
+                            <i class="fa fa-lock"></i> Lock
                         </a>
                         <a href="#" ng-if="bike.isDamaged" ng-click="setDamage(bike.bikeID, false)">
-                            <div class="fa fa-unlock"></div> Unlock
+                            <i class="fa fa-unlock"></i> Unlock
                         </a>
                     </td>
                 </tr>
@@ -55,5 +57,26 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="modal fade" id="addBikeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Bike</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" ng-if="addBikeErrorText">
+                        {{ addBikeErrorText }}
+                    </div>
+                    <label for="newBikeId">Bike ID</label>
+                    <input id="newBikeId" class="form-control" ng-model="newBikeId" type="text">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="addBike()">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
