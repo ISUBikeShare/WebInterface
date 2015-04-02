@@ -9,108 +9,87 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-// more routes for our API will happen here
 router
     //Go to home page
     .get('/view/index', function(req, res) {
         res.sendFile(__dirname + '/app/views/index.html');
     })
-    // create a transaction (accessed at POST http://localhost:8080/api/checkOut)
-    .post('/checkout', function(req, res) {
-        API.checkOut(req, res);
-    })
-
-    // create a transaction (accessed at POST http://localhost:8080/api/checkIn)
-    .post('/checkin', function(req, res) {
-        API.checkIn(req, res);
-    })
-
-    .get('/findalldocks', function(req, res){
-        API.findAllDocks(req, res);
-    })
-
-    //create a new dock (accessed at POST http://localhost:8080/api/createdock)
-    .post('/createdock', function(req, res){
-        API.createDock(req, res);
-    })
-
-    // gets the status of a dock (accessed at POST http://localhost:8080/api/finddockstatus)
-    .get('/finddockstatus', function(req, res) {
-        API.findDockStatus(req, res);
-
-    })
-    // sets the dock the location of the dock (accessed at POST http://localhost:8080/api/setdocklocation)
-    .post('/setdocklocation', function (req, res) {
-        API.setDockLocation(req, res);
-    })
-
-    .get('/findallbikes', function (req, res) {
-        API.findAllBikes(req, res);
-    })
-
-    // Creates a bike (accessed at POST http://localhost:8080/api/createbike)
-    .post('/createbike', function (req, res) {
-        API.createBike(req, res);
-    })
-
-    // Sets the damage of a bike (accessed at POST http://localhost:8080/api/setbikedamage)
-    .post('/setbikedamage', function (req, res){
-        API.setBikeDamage(req, res);
-    })
-
-    //Creates a new admin (accessed at POST http://localhost:8080/api/createadmin)
-    .post('/createadmin', function (req, res) {
-        API.createAdmin(req, res);
-    })
-
-    //Removes an admin from the system (accessed at POST http://localhost:8080/api/removeadmin)
-    .post('/removeadmin', function (req, res){
-        API.removeAdmin(req, res);
-    })
-
-    // gets all the admins in the system (accessed at POST http://localhost:8080/api/findalladmins)
-    .get('/findalladmins', function (req, res) {
-        API.findAllAdmins(req, res);
-    })
-
-    // gets a bike in the system by the bike id (accessed at POST http://localhost:8080/api/findbikebyid)
-    .get('/findbikebyid/:bikeID', function (req, res) {
-        API.findBikeById(req, res);
-    })
-
-    // gets the dock by id (accessed at POST http://localhost:8080/api/finddockbyid)
-    .get('/finddockbyid/:dockID', function (req, res){
-        API.findDockById(req, res);
-    })
-
-    // gets all the transactions (accessed at POST http://localhost:8080/api/getalltransactions)
-    .get('/findalltransactions', function (req, res){
-        API.findAllTransactions(req, res);
-    })
-
-    // gets all the transactions based on the given parameter (e.g. studentId, bikeid, etc. (accessed at POST http://localhost:8080/api/findalltranactionsbyparamid)
-    .get('/findalltransactionsbyparamid', function (req, res){
-        API.findTransactionsByParamId(req, res)
-    })
-
-    // gets all the errors
-    .get('/findallerrorreports', function (req, res){
-        API.findAllErrorReports(req, res)
-    })
-
-    .get('/finderrorreportsbydockid/:dockID', function (req, res){
-        API.findErrorReportsByDockID(req, res);
-    })
-
-    .post('/createerrorreport', function (req, res){
-        API.createErrorReport(req, res);
-    })
-
-    .get('/blowitup', function(req, res){
+	
+	/*
+		Application Endpoints
+	*/
+	.get('/blowitup', function(req, res){
         API.blowitup(req, res);
     })
     .get('/setupdemo', function(req, res) {
         API.setupDemo(req, res);
+    })
+    .post('/checkout', function(req, res) {
+        API.checkOut(req, res);
+    })
+    .post('/checkin', function(req, res) {
+        API.checkIn(req, res);
+    })	
+	/*
+		Bike Endpoints
+	*/
+	.get('/bike/', function (req, res) {
+        API.findAllBikes(req, res);
+    })
+    .post('/bike/', function (req, res) {
+        API.createBike(req, res);
+    })
+	.get('/bike/:bikeID', function (req, res) {
+        API.findBikeById(req, res);
+    })
+	.put('/bike/:bikeID', function (req, res) {
+        API.updateBike(req, res);
+    })
+	/*
+		Dock Endpoints
+	*/
+	.get('/dock/', function(req, res){
+        API.findAllDocks(req, res);
+    })
+	.post('/dock/', function(req, res){
+        API.createDock(req, res);
+    })
+	.get('/dock/:dockID', function (req, res){
+        API.findDockById(req, res);
+    })
+	.put('/dock/:dockID', function (req, res) {
+        API.updateDock(req, res);
+    })
+	/*
+		Transaction Endpoints
+	*/
+	
+	.get('/transaction/', function (req, res){
+        API.findAllTransactions(req, res);
+    })
+	/*
+		Error Report Endpoints
+	*/
+	.get('/errorreport/:dockID', function (req, res){
+        API.findErrorReportsByDockID(req, res);
+    })
+    .post('/errorreport/', function (req, res){
+        API.createErrorReport(req, res);
+    })
+	.get('/errorreport/', function (req, res){
+        API.findAllErrorReports(req, res)
+    })	
+	/*
+		Admin - we can probably remove these....
+	*/
+    .post('/admin/', function (req, res) {
+        API.createAdmin(req, res);
+    })
+    .get('/admin/', function (req, res) {
+        API.findAllAdmins(req, res);
+    })
+	.delete('/admin/:cardString', function (req, res){
+        API.removeAdmin(req, res);
     });
 
 module.exports = router;
