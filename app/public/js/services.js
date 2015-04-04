@@ -3,8 +3,7 @@ angular.module('BikeshareServices', ['ngResource'])
         function($resource) {
             return {
                 Bike: $resource('/api/bike/:bikeID', {}, {update: {method: 'PUT', params: {bikeID: '@bikeID'}}}),
-                Bikes: $resource('/api/bike'),
-                Docks: $resource('/api/dock/:dockID', {}, {update: {method: 'PUT', params: {dockID: '@dockID'}}}),
+                Dock: $resource('/api/dock/:dockID', {}, {update: {method: 'PUT', params: {dockID: '@dockID'}}}),
                 ErrorReport: $resource('/api/errorreport'),
                 Transactions: $resource('/api/transaction')
             }

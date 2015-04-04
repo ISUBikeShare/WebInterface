@@ -30,7 +30,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.transactionErrorHandler = function(response) {
                 $scope.loadingTransactions = false;
-                $scope.failureText = 'There was an error in fetching transactions. Please try again.';
+                $scope.failureText = 'There was an error while fetching transactions. Please try again.';
             };
 
             $scope.getTransactions();
@@ -44,14 +44,11 @@ angular.module('BikeshareControllers', [])
             $scope.bikes = [];
             $scope.searchText = '';
             $scope.filteredResults = [];
-            $scope.bikeToEdit = {};
             $scope.newBikeId = '';
-            $scope.bikeToLock = {};
-            $scope.bikeToEdit = {};
 
             $scope.getBikes = function() {
                 $scope.loadingBikes = true;
-                api.Bikes.query(
+                api.Bike.query(
                     $scope.bikeSuccessHandler,
                     $scope.bikeErrorHandler
                 )
@@ -65,12 +62,12 @@ angular.module('BikeshareControllers', [])
 
             $scope.bikeErrorHandler = function(response) {
                 $scope.loadingBikes = false;
-                $scope.failureText = 'There was an error in fetching bikes. Please try again.';
+                $scope.failureText = 'There was an error while fetching bikes. Please try again.';
             };
 
             $scope.addBike = function() {
                 if($scope.newBikeId != ''){
-                    api.Bikes.save({bikeID: $scope.newBikeId},
+                    api.Bike.save({bikeID: $scope.newBikeId},
                         $scope.addBikeSuccessHandler,
                         $scope.addBikeErrorHandler
                     )
@@ -81,6 +78,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addBikeSuccessHandler = function(response) {
                 $scope.getBikes();
+                $scope.failureText = '';
                 $scope.successText = 'Bike successfully added';
                 $scope.newBikeId = '';
                 $('#addBikeModal').modal('hide');
@@ -88,7 +86,8 @@ angular.module('BikeshareControllers', [])
 
             $scope.addBikeErrorHandler = function(response) {
                 $scope.newBikeId = '';
-                $scope.failureText = 'There was an error in adding a new bike. Please try again.';
+                $scope.successText = '';
+                $scope.failureText = 'There was an error while adding a new bike. Please try again.';
                 $('#addBikeModal').modal('hide');
             };
 
@@ -112,7 +111,7 @@ angular.module('BikeshareControllers', [])
                     },
                     function(response) {
                         $scope.successText = '';
-                        $scope.lockBikeErrorText = 'There was an error in updating the bike. Please try again.';
+                        $scope.failureText = 'There was an error while updating the bike. Please try again.';
                         $('#lockBikeModal').modal('hide');
                     }
                 );
@@ -127,13 +126,16 @@ angular.module('BikeshareControllers', [])
                     $scope.bikeToEdit,
                     function(resp) {
                         $scope.getBikes();
+                        $scope.failureText = '';
+                        $scope.successText = 'Bike successfully updated.';
                         $('#editBikeModal').modal('hide');
                     },
                     function(resp) {
+                        $scope.failureText = 'There was an error while updating the bike. Please try again.';
+                        $scope.successText = '';
                         $('#editBikeModal').modal('hide');
                     }
                 );
-                $('#editDockModal').modal('hide');
             };
 
             $scope.getBikes();
@@ -146,14 +148,10 @@ angular.module('BikeshareControllers', [])
             $scope.docks = [];
             $scope.searchText = '';
             $scope.filteredResults = [];
-            $scope.newDock = {
-                id: '',
-                location: ''
-            };
 
             $scope.getDocks = function() {
                 $scope.loadingDocks = true;
-                api.Docks.query(
+                api.Dock.query(
                     $scope.getDocksSuccessHandler,
                     $scope.getDocksFailureHandler
                 )
@@ -166,14 +164,14 @@ angular.module('BikeshareControllers', [])
 
             $scope.getDocksFailureHandler = function(response) {
                 $scope.loadingDocks = false;
-                $scope.failureText = 'There was an error in fetching docks. Please try again.'
+                $scope.failureText = 'There was an error while fetching docks. Please try again.'
             };
 
             $scope.getDocks();
 
             $scope.addDock = function() {
                 if($scope.newDock.id != '' && $scope.newDock.location != ''){
-                    api.Docks.save({
+                    api.Dock.save({
                             dockID: $scope.newDock.id,
                             location: $scope.newDock.location},
                         $scope.addDockSuccessHandler,
@@ -187,18 +185,19 @@ angular.module('BikeshareControllers', [])
             $scope.addDockSuccessHandler = function(response) {
                 $scope.getDocks();
                 $scope.successText = 'Dock successfully added.';
+                $scope.failureText = '';
                 $scope.newBikeId = '';
                 $('#addDockModal').modal('hide');
             };
 
             $scope.addDockErrorHandler = function(response) {
                 $scope.newDockId = '';
-                $scope.failureText = 'There was an error in adding a new dock. Please try again.';
+                $scope.failureText = 'There was an error while adding a new dock. Please try again.';
                 $('#addDockModal').modal('hide');
             };
 
             $scope.editDock = function() {
-                api.Docks.update(
+                api.Dock.update(
                     $scope.dockToEdit,
                     function(resp) {
                         $scope.failureText = '';
@@ -212,12 +211,10 @@ angular.module('BikeshareControllers', [])
                         $('#editDockModal').modal('hide');
                     }
                 );
-                $('#editDockModal').modal('hide');
             };
 
             $scope.setDockToEdit = function(dock) {
-                $scope.addDockErrorText = '';
-                $scope.dockToEdit = dock;
+                $scope.dockToEdit = angular.copy(dock);
             };
         }
     ])
@@ -240,8 +237,8 @@ angular.module('BikeshareControllers', [])
             };
 
             $scope.getErrorsFailureHandler = function(response) {
-                $scope.loadingErrors = false
-                $scope.failureText = 'There was an error in fetching error reports. Please try again.'
+                $scope.loadingErrors = false;
+                $scope.failureText = 'There was an error while fetching error reports. Please try again.'
             };
 
             $scope.getErrors();
