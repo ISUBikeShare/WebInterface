@@ -44,10 +44,10 @@
                         <i class="fa fa-unlock" ng-if="!bike.isDamaged" style="opacity: .25"></i>
                     </td>
                     <td>
-                        <a href="#" ng-if="!bike.isDamaged" ng-click="setDamage(bike.bikeID, true)">
+                        <a href="#" ng-if="!bike.isDamaged" ng-click="setDamage(bike, true)">
                             <i class="fa fa-lock"></i> Lock
                         </a>
-                        <a href="#" ng-if="bike.isDamaged" ng-click="setDamage(bike.bikeID, false)">
+                        <a href="#" ng-if="bike.isDamaged" ng-click="setDamage(bike, false)">
                             <i class="fa fa-unlock"></i> Unlock
                         </a>
                     </td>

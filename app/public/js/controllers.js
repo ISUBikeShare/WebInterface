@@ -68,7 +68,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addBike = function() {
                 if($scope.newBikeId != ''){
-                    api.AddBikes.save({bikeID: $scope.newBikeId},
+                    api.Bikes.save({bikeID: $scope.newBikeId},
                         $scope.addBikeSuccessHandler,
                         $scope.addBikeErrorHandler
                     )
@@ -90,10 +90,10 @@ angular.module('BikeshareControllers', [])
                 $('#addBikeModal').modal('hide');
             };
 
-            $scope.setDamage = function(bikeID, isDamaged) {
-                if(isDamaged && confirm('Lock bike ' + bikeID + '?')){
-                    api.BikeDamage.save(
-                        {bikeID: bikeID, isDamaged: isDamaged},
+            $scope.setDamage = function(bike, isDamaged) {
+                var payload = {bikeID: bike.bikeID, isDamaged: isDamaged, state: bike.state, dockID: bike.dockID};
+                if(isDamaged && confirm('Lock bike ' + bike.bikeID + '?')){
+                    api.BikeDamage.update(payload,
                         function(response) {
                             $scope.getBikes();
                         },
@@ -104,15 +104,12 @@ angular.module('BikeshareControllers', [])
                         }
                     )
                 }
-                else if(!isDamaged && confirm('Unlock bike ' + bikeID + '?')){
-                    api.BikeDamage.save(
-                        {bikeID: bikeID, isDamaged: isDamaged},
+                else if(!isDamaged && confirm('Unlock bike ' + bike.bikeID + '?')){
+                    api.BikeDamage.update(payload,
                         function(response) {
                             $scope.getBikes();
                         },
                         function(response) {
-                            //this is the error handler.
-                            //it will need to do something different eventually
                             $scope.getBikes();
                         }
                     )
@@ -156,7 +153,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addDock = function() {
                 if($scope.newDock.id != '' && $scope.newDock.location != ''){
-                    api.AddDocks.save({
+                    api.Docks.save({
                             dockID: $scope.newDock.id,
                             location: $scope.newDock.location},
                         $scope.addDockSuccessHandler,
