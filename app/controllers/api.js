@@ -162,9 +162,7 @@ API.updateBike = function (req, res){
     var isDamaged = req.body.isDamaged;
     var cardString = req.body.cardString != null ? req.body.cardString : null;
     var state = req.body.state;
-    if(!req.body.dockID)
-        req.body.dockID = '';
-    var dockID = req.body.dockID;
+    var dockID = req.body.dockID ? req.body.dockID : '';
     Bike.update({bikeID: bikeID}, {isDamaged: isDamaged, state: state, dockID: dockID, cardString: cardString}, function (err) {
         if (err) {
             createErrorReport(err, null, 'Server');
@@ -223,7 +221,7 @@ API.findAllDocks = function(req, res) {
 API.updateDock = function (req, res) {
     var dockID = req.params.dockID;
     var location = req.body.location;
-    var bikeID = req.body.bikeID;
+    var bikeID = req.body.bikeID ? req.body.bikeID : '';
     var status = req.body.status;
     Dock.update({dockID: dockID}, {location: location, bikeID: bikeID, status: status}, function (err) {
         if (err) {
