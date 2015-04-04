@@ -46,6 +46,7 @@ angular.module('BikeshareControllers', [])
             $scope.filteredResults = [];
             $scope.bikeToEdit = {};
             $scope.newBikeId = '';
+            $scope.bikeToLock = {};
 
             $scope.getBikes = function() {
                 $scope.loadingBikes = true;
@@ -68,7 +69,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addBike = function() {
                 if($scope.newBikeId != ''){
-                    api.AddBikes.save({bikeID: $scope.newBikeId},
+                    api.Bikes.save({bikeID: $scope.newBikeId},
                         $scope.addBikeSuccessHandler,
                         $scope.addBikeErrorHandler
                     )
@@ -90,33 +91,30 @@ angular.module('BikeshareControllers', [])
                 $('#addBikeModal').modal('hide');
             };
 
-            $scope.setDamage = function(bikeID, isDamaged) {
-                if(isDamaged && confirm('Lock bike ' + bikeID + '?')){
-                    api.BikeDamage.save(
-                        {bikeID: bikeID, isDamaged: isDamaged},
-                        function(response) {
-                            $scope.getBikes();
-                        },
-                        function(response) {
-                            //this is the error handler.
-                            //it will need to do something different eventually
-                            $scope.getBikes();
-                        }
-                    )
-                }
-                else if(!isDamaged && confirm('Unlock bike ' + bikeID + '?')){
-                    api.BikeDamage.save(
-                        {bikeID: bikeID, isDamaged: isDamaged},
-                        function(response) {
-                            $scope.getBikes();
-                        },
-                        function(response) {
-                            //this is the error handler.
-                            //it will need to do something different eventually
-                            $scope.getBikes();
-                        }
-                    )
-                }
+            $scope.openLockModal = function(bike) {
+                $scope.bikeToLock = bike;
+            };
+
+            $scope.setDamage = function() {
+                var payload = {
+                    bikeID: $scope.bikeToLock.bikeID,
+                    isDamaged: !$scope.bikeToLock.isDamaged,
+                    state: $scope.bikeToLock.state,
+                    dockID: $scope.bikeToLock.dockID};
+
+                api.BikeDamage.update(payload,
+                    function(response) {
+                        $scope.successText = 'Successfully updated bike.';
+                        $scope.failureText = '';
+                        $scope.getBikes();
+                        $('#lockBikeModal').modal('hide');
+                    },
+                    function(response) {
+                        $scope.successText = '';
+                        $scope.lockBikeErrorText = 'There was an error in updating the bike. Please try again.';
+                        $('#lockBikeModal').modal('hide');
+                    }
+                );
             };
 
             $scope.getBikes();
@@ -156,7 +154,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addDock = function() {
                 if($scope.newDock.id != '' && $scope.newDock.location != ''){
-                    api.AddDocks.save({
+                    api.Docks.save({
                             dockID: $scope.newDock.id,
                             location: $scope.newDock.location},
                         $scope.addDockSuccessHandler,
