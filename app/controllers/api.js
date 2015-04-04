@@ -133,7 +133,7 @@ API.createBike = function (req, res){
     bike.state = 'in';
     if(req.body.dockID == null)
         bike.state = 'out';
-    bike.dockID = req.body.dockID;
+    bike.dockID = req.body.dockID ? req.body.dockID : null;
     bike.bikeID = req.body.bikeID;
     bike.cardString = null;
     bike.save(function(err) {
@@ -191,11 +191,9 @@ API.findBikeById = function (req, res){
 
 API.createDock = function (req, res) {
     var dock = new Dock();
-    dock.location = null;
-    if(req.body.location != null)
-        dock.location = req.body.location;
+    dock.location = req.body.location ? req.body.location : null;
     dock.dockID = req.body.dockID;
-    dock.bikeID = req.body.bikeID;
+    dock.bikeID = req.body.bikeID ? req.body.bikeID : null;
     dock.status = true;
     dock.save(function(err) {
         if (err) {
