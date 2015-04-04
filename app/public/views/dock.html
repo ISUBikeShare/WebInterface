@@ -25,6 +25,7 @@
                     <th>Dock ID</th>
                     <th>Location</th>
                     <th>Current Bike ID</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,11 @@
                     <td>{{ dock.dockID }}</td>
                     <td>{{ dock.location }}</td>
                     <td>{{ dock.bikeID }}</td>
+                    <td>
+                        <a ng-click="setDockToEdit(dock)" data-toggle="modal" data-target="#editDockModal">
+                            <i class="fa fa-pencil-square-o"></i> Edit
+                        </a>
+                    </td>
                 </tr>
                 <tr ng-if="filterResults.length == 0 && !loadingDocks">
                     <td colspan="6" style="text-align: center">No docks found</td>
@@ -71,4 +77,40 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editDockModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Dock</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editDockId">Dock ID</label>
+                        <input id="editDockId" class="form-control" disabled ng-model="dockToEdit.dockID" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDockLocation">Location</label>
+                        <input id="editDockLocation" class="form-control" ng-model="dockToEdit.location" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCurrentBikeId">Current Bike ID</label>
+                        <input id="editCurrentBikeId" class="form-control" ng-model="dockToEdit.bikeID" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="editState">Status</label>
+                        <select id="editState" class="form-control" ng-model="dockToEdit.status">
+                            <option value="true" ng-class="{selected: dockToEdit.state == true}">true</option>
+                            <option value="false" ng-class="{selected: dockToEdit.state == false}">false</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="editDock()">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

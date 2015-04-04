@@ -47,6 +47,7 @@ angular.module('BikeshareControllers', [])
             $scope.bikeToEdit = {};
             $scope.newBikeId = '';
             $scope.bikeToLock = {};
+            $scope.bikeToEdit = {};
 
             $scope.getBikes = function() {
                 $scope.loadingBikes = true;
@@ -102,7 +103,7 @@ angular.module('BikeshareControllers', [])
                     state: $scope.bikeToLock.state,
                     dockID: $scope.bikeToLock.dockID};
 
-                api.BikeDamage.update(payload,
+                api.Bike.update(payload,
                     function(response) {
                         $scope.successText = 'Successfully updated bike.';
                         $scope.failureText = '';
@@ -115,6 +116,24 @@ angular.module('BikeshareControllers', [])
                         $('#lockBikeModal').modal('hide');
                     }
                 );
+            };
+
+            $scope.setBikeToEdit = function(bike) {
+                $scope.bikeToEdit = angular.copy(bike);
+            };
+
+            $scope.editBike = function() {
+                api.Bike.update(
+                    $scope.bikeToEdit,
+                    function(resp) {
+                        $scope.getBikes();
+                        $('#editBikeModal').modal('hide');
+                    },
+                    function(resp) {
+                        $('#editBikeModal').modal('hide');
+                    }
+                );
+                $('#editDockModal').modal('hide');
             };
 
             $scope.getBikes();
@@ -167,7 +186,7 @@ angular.module('BikeshareControllers', [])
 
             $scope.addDockSuccessHandler = function(response) {
                 $scope.getDocks();
-                $scope.successText = 'Dock successfully added';
+                $scope.successText = 'Dock successfully added.';
                 $scope.newBikeId = '';
                 $('#addDockModal').modal('hide');
             };
@@ -176,6 +195,29 @@ angular.module('BikeshareControllers', [])
                 $scope.newDockId = '';
                 $scope.failureText = 'There was an error in adding a new dock. Please try again.';
                 $('#addDockModal').modal('hide');
+            };
+
+            $scope.editDock = function() {
+                api.Docks.update(
+                    $scope.dockToEdit,
+                    function(resp) {
+                        $scope.failureText = '';
+                        $scope.successText = 'Dock successfully updated.';
+                        $scope.getDocks();
+                        $('#editDockModal').modal('hide');
+                    },
+                    function(resp) {
+                        $scope.successText = '';
+                        $scope.failureText = 'There was an error while updating the dock. Please try again.'
+                        $('#editDockModal').modal('hide');
+                    }
+                );
+                $('#editDockModal').modal('hide');
+            };
+
+            $scope.setDockToEdit = function(dock) {
+                $scope.addDockErrorText = '';
+                $scope.dockToEdit = dock;
             };
         }
     ])
