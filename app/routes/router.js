@@ -14,11 +14,11 @@ router
     .get('/view/index', function(req, res) {
         res.sendFile(__dirname + '/app/views/index.html');
     })
-	
-	/*
-		Application Endpoints
-	*/
-	.get('/blowitup', function(req, res){
+
+    /*
+        Application Endpoints
+    */
+    .get('/blowitup', function(req, res){
         API.blowitup(req, res);
     })
     .get('/setupdemo', function(req, res) {
@@ -29,66 +29,66 @@ router
     })
     .post('/checkin', function(req, res) {
         API.checkIn(req, res);
-    })	
-	/*
-		Bike Endpoints
-	*/
-	.get('/bike/', function (req, res) {
+    })
+    /*
+        Bike Endpoints
+    */
+    .get('/bike/', function (req, res) {
         API.findAllBikes(req, res);
     })
     .post('/bike/', function (req, res) {
         API.createBike(req, res);
     })
-	.get('/bike/:bikeID', function (req, res) {
+    .get('/bike/:bikeID', function (req, res) {
         API.findBikeById(req, res);
     })
-	.put('/bike/:bikeID', function (req, res) {
+    .put('/bike/:bikeID', function (req, res) {
         API.updateBike(req, res);
     })
-	/*
-		Dock Endpoints
-	*/
-	.get('/dock/', function(req, res){
+    /*
+        Dock Endpoints
+    */
+    .get('/dock/', function(req, res){
         API.findAllDocks(req, res);
     })
-	.post('/dock/', function(req, res){
+    .post('/dock/', function(req, res){
         API.createDock(req, res);
     })
-	.get('/dock/:dockID', function (req, res){
+    .get('/dock/:dockID', function (req, res){
         API.findDockById(req, res);
     })
-	.put('/dock/:dockID', function (req, res) {
+    .put('/dock/:dockID', function (req, res) {
         API.updateDock(req, res);
     })
-	/*
-		Transaction Endpoints
-	*/
-	
-	.get('/transaction/', function (req, res){
+    /*
+        Transaction Endpoints
+    */
+
+    .get('/transaction/', function (req, res){
         API.findAllTransactions(req, res);
     })
-	/*
-		Error Report Endpoints
-	*/
-	.get('/errorreport/:dockID', function (req, res){
+    /*
+        Error Report Endpoints
+    */
+    .get('/errorreport/:dockID', function (req, res){
         API.findErrorReportsByDockID(req, res);
     })
     .post('/errorreport/', function (req, res){
         API.createErrorReport(req, res);
     })
-	.get('/errorreport/', function (req, res){
+    .get('/errorreport/', function (req, res){
         API.findAllErrorReports(req, res)
-    })	
-	/*
-		Admin - we can probably remove these....
-	*/
+    })
+    /*
+        Admin - we can probably remove these....
+    */
     .post('/admin/', function (req, res) {
         API.createAdmin(req, res);
     })
     .get('/admin/', function (req, res) {
         API.findAllAdmins(req, res);
     })
-	.delete('/admin/:cardString', function (req, res){
+    .delete('/admin/:cardString', function (req, res){
         API.removeAdmin(req, res);
     });
 

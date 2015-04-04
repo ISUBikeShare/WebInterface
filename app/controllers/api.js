@@ -6,7 +6,7 @@ var ErrorReport = require('../models/errorReport');
 var API = new Object();
 
 /*
-	Application methods
+    Application methods
 */
 
 API.checkOut = function (req, res) {
@@ -109,7 +109,7 @@ API.checkIn = function (req, res) {
 
 
 /*
-	Transaction methods
+    Transaction methods
 */
 
 API.findAllTransactions = function(req, res){
@@ -124,26 +124,26 @@ API.findAllTransactions = function(req, res){
 };
 
 /*
-	Bike methods
+    Bike methods
 */
 
 API.createBike = function (req, res){
-	var bike = new Bike();
-	bike.isDamaged = false;
-	bike.state = 'in';
-	if(req.body.dockID == null)
-		bike.state = 'out';
-	bike.dockID = req.body.dockID;
-	bike.bikeID = req.body.bikeID;
-	bike.cardString = null;
-	bike.save(function(err) {
-		if (err) {
-			createErrorReport(err, null, 'Server');
-			res.sendStatus(500);
-		} else {
-			res.sendStatus(200);
-		}
-	});
+    var bike = new Bike();
+    bike.isDamaged = false;
+    bike.state = 'in';
+    if(req.body.dockID == null)
+        bike.state = 'out';
+    bike.dockID = req.body.dockID;
+    bike.bikeID = req.body.bikeID;
+    bike.cardString = null;
+    bike.save(function(err) {
+        if (err) {
+            createErrorReport(err, null, 'Server');
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(200);
+        }
+    });
 };
 
 API.findAllBikes = function (req, res) {
@@ -158,11 +158,13 @@ API.findAllBikes = function (req, res) {
 };
 
 API.updateBike = function (req, res){
-	var bikeID = req.params.bikeID;
+    var bikeID = req.params.bikeID;
     var isDamaged = req.body.isDamaged;
-	var cardString = req.body.cardString != null ? req.body.cardString : null;
-	var state = req.body.state;
-	var dockID = req.body.dockID;
+    var cardString = req.body.cardString != null ? req.body.cardString : null;
+    var state = req.body.state;
+    if(!req.body.dockID)
+        req.body.dockID = '';
+    var dockID = req.body.dockID;
     Bike.update({bikeID: bikeID}, {isDamaged: isDamaged, state: state, dockID: dockID, cardString: cardString}, function (err) {
         if (err) {
             createErrorReport(err, null, 'Server');
@@ -186,7 +188,7 @@ API.findBikeById = function (req, res){
 };
 
 /*
-	Dock methods
+    Dock methods
 */
 
 API.createDock = function (req, res) {
@@ -221,8 +223,8 @@ API.findAllDocks = function(req, res) {
 API.updateDock = function (req, res) {
     var dockID = req.params.dockID;
     var location = req.body.location;
-	var bikeID = req.body.bikeID;
-	var status = req.body.status;
+    var bikeID = req.body.bikeID;
+    var status = req.body.status;
     Dock.update({dockID: dockID}, {location: location, bikeID: bikeID, status: status}, function (err) {
         if (err) {
             createErrorReport(err, null, 'Server');
@@ -246,7 +248,7 @@ API.findDockById = function (req, res){
 };
 
 /*
-	Admin methods
+    Admin methods
 */
 
 API.createAdmin = function (req, res){
@@ -286,7 +288,7 @@ API.findAllAdmins = function (req, res){
 };
 
 /*
-	Error Report methods
+    Error Report methods
 */
 
 API.findAllErrorReports = function(req, res){
@@ -350,13 +352,13 @@ API.setupDemo = function(req, res) {
     bike.state = 'in';
     bike.dockID = "202481599488101";
     bike.bikeID = "6A004A1589BC";
-	bike.cardString = null;
+    bike.cardString = null;
     bike.save(function (err) { if(err) res.send(err)});
     var bike = new Bike();
     bike.isDamaged = false;
     bike.state = 'out';
     bike.dockID = null;
-	bike.cardString = null;
+    bike.cardString = null;
     bike.bikeID = "6A0049EE509D";
     bike.save(function (err) { if(err) res.send(err)});
     //create a dock with a bike in it
