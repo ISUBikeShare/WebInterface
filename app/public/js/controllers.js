@@ -46,6 +46,7 @@ angular.module('BikeshareControllers', [])
             $scope.filteredResults = [];
             $scope.bikeToEdit = {};
             $scope.newBikeId = '';
+            $scope.bikeToLock = {};
 
             $scope.getBikes = function() {
                 $scope.loadingBikes = true;
@@ -90,30 +91,30 @@ angular.module('BikeshareControllers', [])
                 $('#addBikeModal').modal('hide');
             };
 
-            $scope.setDamage = function(bike, isDamaged) {
-                var payload = {bikeID: bike.bikeID, isDamaged: isDamaged, state: bike.state, dockID: bike.dockID};
-                if(isDamaged && confirm('Lock bike ' + bike.bikeID + '?')){
-                    api.BikeDamage.update(payload,
-                        function(response) {
-                            $scope.getBikes();
-                        },
-                        function(response) {
-                            //this is the error handler.
-                            //it will need to do something different eventually
-                            $scope.getBikes();
-                        }
-                    )
-                }
-                else if(!isDamaged && confirm('Unlock bike ' + bike.bikeID + '?')){
-                    api.BikeDamage.update(payload,
-                        function(response) {
-                            $scope.getBikes();
-                        },
-                        function(response) {
-                            $scope.getBikes();
-                        }
-                    )
-                }
+            $scope.openLockModal = function(bike) {
+                $scope.bikeToLock = bike;
+            };
+
+            $scope.setDamage = function() {
+                var payload = {
+                    bikeID: $scope.bikeToLock.bikeID,
+                    isDamaged: !$scope.bikeToLock.isDamaged,
+                    state: $scope.bikeToLock.state,
+                    dockID: $scope.bikeToLock.dockID};
+
+                api.BikeDamage.update(payload,
+                    function(response) {
+                        $scope.successText = 'Successfully updated bike.';
+                        $scope.failureText = '';
+                        $scope.getBikes();
+                        $('#lockBikeModal').modal('hide');
+                    },
+                    function(response) {
+                        $scope.successText = '';
+                        $scope.lockBikeErrorText = 'There was an error in updating the bike. Please try again.';
+                        $('#lockBikeModal').modal('hide');
+                    }
+                );
             };
 
             $scope.getBikes();

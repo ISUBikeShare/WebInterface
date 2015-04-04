@@ -44,11 +44,13 @@
                         <i class="fa fa-unlock" ng-if="!bike.isDamaged" style="opacity: .25"></i>
                     </td>
                     <td>
-                        <a href="#" ng-if="!bike.isDamaged" ng-click="setDamage(bike, true)">
-                            <i class="fa fa-lock"></i> Lock
-                        </a>
-                        <a href="#" ng-if="bike.isDamaged" ng-click="setDamage(bike, false)">
-                            <i class="fa fa-unlock"></i> Unlock
+                        <a ng-click="openLockModal(bike)" data-toggle="modal" data-target="#lockBikeModal">
+                            <span ng-if="!bike.isDamaged">
+                                <i class="fa fa-lock"></i> Lock
+                            </span>
+                            <span ng-if="bike.isDamaged">
+                                <i class="fa fa-unlock"></i> Unlock
+                            </span>
                         </a>
                     </td>
                 </tr>
@@ -75,6 +77,28 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary" ng-click="addBike()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="lockBikeModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Manage Bike</h4>
+                </div>
+                <div class="modal-body">
+                    <span ng-if="bikeToLock.isDamaged">
+                        Lock bike {{ bikeToLock.bikeID }}?
+                    </span>
+                    <span ng-if="!bikeToLock.isDamaged">
+                        Unlock bike {{ bikeToLock.bikeID }}?
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-click="setDamage()">Yes</button>
                 </div>
             </div>
         </div>
