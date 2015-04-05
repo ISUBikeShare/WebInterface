@@ -94,10 +94,10 @@
                     <h4 class="modal-title">Manage Bike</h4>
                 </div>
                 <div class="modal-body">
-                    <span ng-if="bikeToLock.isDamaged">
+                    <span ng-if="!bikeToLock.isDamaged">
                         Lock bike {{ bikeToLock.bikeID }}?
                     </span>
-                    <span ng-if="!bikeToLock.isDamaged">
+                    <span ng-if="bikeToLock.isDamaged">
                         Unlock bike {{ bikeToLock.bikeID }}?
                     </span>
                 </div>
