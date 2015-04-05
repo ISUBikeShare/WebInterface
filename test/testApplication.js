@@ -21,7 +21,6 @@ describe('/checkout/', function() {
         api.post('/checkout/')
             .send(data)
             .expect(200)
-            //.expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.status.should.equal(200);
@@ -42,7 +41,6 @@ describe('/checkin/', function() {
         api.post('/checkin/')
             .send(data)
             .expect(200)
-            //.expect('Content-Type', /json/)
             .end(function(err, res) {
                 if (err) return done(err);
                 res.status.should.equal(200);
