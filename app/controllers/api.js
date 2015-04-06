@@ -127,23 +127,33 @@ API.findAllTransactions = function(req, res){
     Bike methods
 */
 
-API.createBike = function (req, res){
+API.createBike = function (req, res) {
     var bike = new Bike();
     bike.isDamaged = false;
     bike.state = 'in';
-    if(req.body.dockID == null)
+    if (req.body.dockID == null)
         bike.state = 'out';
     bike.dockID = req.body.dockID ? req.body.dockID : null;
     bike.bikeID = req.body.bikeID;
     bike.cardString = null;
-    bike.save(function(err) {
-        if (err) {
-            createErrorReport(err, null, 'Server');
+    Bike.find({ bikeID: req.body.bikeID}, function (err, existingBike) {
+        if(existingBike.length){
+            createErrorReport('The bikeID ' + req.body.bikeID + ' already exists', null, 'Server');
             res.sendStatus(500);
-        } else {
-            res.sendStatus(200);
         }
-    });
+
+        else
+        {
+            bike.save(function (err) {
+                if (err) {
+                    createErrorReport(err, null, 'Server');
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+    })
 };
 
 API.findAllBikes = function (req, res) {
@@ -195,14 +205,25 @@ API.createDock = function (req, res) {
     dock.dockID = req.body.dockID;
     dock.bikeID = req.body.bikeID ? req.body.bikeID : null;
     dock.status = true;
-    dock.save(function(err) {
-        if (err) {
-            createErrorReport(err, null, 'Server');
+
+    Dock.find({ dockID: req.body.dockID}, function (err, existingDock) {
+        if(existingDock.length){
+            createErrorReport('The dockID ' + req.body.dockID + ' already exists', null, 'Server');
             res.sendStatus(500);
-        } else {
-            res.sendStatus(200);
         }
-    });
+
+        else
+        {
+            dock.save(function (err) {
+                if (err) {
+                    createErrorReport(err, null, 'Server');
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            });
+        }
+    })
 };
 
 API.findAllDocks = function(req, res) {
