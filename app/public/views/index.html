@@ -26,31 +26,16 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="sub-header" style="padding-left: 20px">
-                    <strong>Transactions</strong>
+                    <strong>Manage</strong>
                 </li>
                 <li ng-class="{active: pageView == 'transactions'}">
-                    <a ng-click="switchView('transactions')" href="#">View All Transactions</a>
-                </li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li class="sub-header" style="padding-left: 20px">
-                    <strong>Bikes</strong>
+                    <a ng-click="switchView('transactions')" href="#">Transactions</a>
                 </li>
                 <li ng-class="{active: pageView == 'bikes'}">
-                    <a ng-click="switchView('bikes')" href="#">View All Bikes</a>
-                </li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li class="sub-header" style="padding-left: 20px">
-                    <strong>Docks</strong>
+                    <a ng-click="switchView('bikes')" href="#">Bikes</a>
                 </li>
                 <li ng-class="{active: pageView == 'docks'}">
-                    <a ng-click="switchView('docks')" href="#">View All Docks</a>
-                </li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li class="sub-header" style="padding-left: 20px">
-                    <strong>Errors</strong>
+                    <a ng-click="switchView('docks')" href="#">Docks</a>
                 </li>
                 <li ng-class="{active: pageView == 'errors'}">
                     <a ng-click="switchView('errors')" href="#">Error Report</a>
@@ -66,9 +51,6 @@
             </div>
             <div ng-if="pageView == 'docks'">
                 <manage-docks></manage-docks>
-            </div>
-            <div ng-if="pageView == 'damagedbikes'">
-                <damaged-bikes></damaged-bikes>
             </div>
             <div ng-if="pageView == 'errors'">
                 <error-report></error-report>
