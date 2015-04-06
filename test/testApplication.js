@@ -28,7 +28,7 @@ describe('/checkout/', function() {
             });
     });
 });
-
+    
 describe('/checkin/', function() {
 
     //basic check in
