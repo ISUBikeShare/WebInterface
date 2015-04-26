@@ -1,13 +1,4 @@
-angular.module('BikeshareControllers', [])
-    .controller('IndexCtrl', ['$scope',
-        function($scope) {
-            $scope.pageView = 'transactions';
-            $scope.switchView = function(view) {
-                $scope.pageView = view;
-            }
-        }
-    ])
-
+angular.module('BikeshareControllers', ['ui.router'])
     .controller('TransactionCtrl', ['$scope', 'api',
         function($scope, api) {
             $scope.failureText = '';
@@ -247,4 +238,33 @@ angular.module('BikeshareControllers', [])
 
             $scope.getErrors();
         }
-    ]);
+    ])
+
+    .config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/transaction');
+
+        $stateProvider
+            .state('transaction', {
+                url: '/transaction',
+                templateUrl: '/transaction.html',
+                controller: 'TransactionCtrl'
+            })
+
+            .state('bike', {
+                url: '/bike',
+                templateUrl: '/bike.html',
+                controller: 'BikeCtrl'
+            })
+
+            .state('dock', {
+                url: '/dock',
+                templateUrl: '/dock.html',
+                controller: 'DockCtrl'
+            })
+
+            .state('errorReport', {
+                url: '/errorreport',
+                templateUrl: '/errorReport.html',
+                controller: 'ErrorReportCtrl'
+            })
+    });

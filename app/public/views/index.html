@@ -1,7 +1,7 @@
 <script src="angular/angular.min.js"></script>
 <script src="/angular-resource/angular-resource.min.js"></script>
+<script src="/angular-ui-router/build/angular-ui-router.min.js"></script>
 <script src="controllers.js"></script>
-<script src="directives.js"></script>
 <script src="services.js"></script>
 <script src="core.js"></script>
 <script src="/jquery/dist/jquery.min.js"></script>
@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="main.css"/>
     </head>
 
-    <body ng-controller="IndexCtrl">
+    <body>
         <nav class="navbar cyclone-cardinal" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -28,33 +28,22 @@
                 <li class="sub-header" style="padding-left: 20px">
                     <strong>Manage</strong>
                 </li>
-                <li ng-class="{active: pageView == 'transactions'}">
-                    <a ng-click="switchView('transactions')" href="#">Transactions</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="transaction">Transactions</a>
                 </li>
-                <li ng-class="{active: pageView == 'bikes'}">
-                    <a ng-click="switchView('bikes')" href="#">Bikes</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="bike">Bikes</a>
                 </li>
-                <li ng-class="{active: pageView == 'docks'}">
-                    <a ng-click="switchView('docks')" href="#">Docks</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="dock">Docks</a>
                 </li>
-                <li ng-class="{active: pageView == 'errors'}">
-                    <a ng-click="switchView('errors')" href="#">Error Report</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="errorReport">Error Report</a>
                 </li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <div ng-if="pageView == 'transactions'">
-                <manage-transactions></manage-transactions>
-            </div>
-            <div ng-if="pageView == 'bikes'">
-                <manage-bikes></manage-bikes>
-            </div>
-            <div ng-if="pageView == 'docks'">
-                <manage-docks></manage-docks>
-            </div>
-            <div ng-if="pageView == 'errors'">
-                <error-report></error-report>
-            </div>
+            <div ui-view></div>
         </div>
     </body>
 </html>
