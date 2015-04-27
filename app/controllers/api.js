@@ -209,7 +209,7 @@ API.createDock = function (req, res) {
     Dock.find({ dockID: req.body.dockID}, function (err, existingDock) {
         if(existingDock.length){
             createErrorReport('The dockID ' + req.body.dockID + ' already exists', null, 'Server');
-            res.sendStatus(500);
+            res.sendStatus(204);
         }
 
         else
