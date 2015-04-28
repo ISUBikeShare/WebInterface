@@ -66,11 +66,11 @@
 }
 
 .cyclone-gold {
-    color: #FDC82F;
+    color: #FDC82F !important;
 }
 
 .cyclone-gold:hover{
-    color: #FADA63;
+    color: #FADA63 !important;
 }
 
 .cyclone-cardinal {

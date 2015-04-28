@@ -1,1 +1,1 @@
-angular.module('BikeshareApp', ['BikeshareControllers', 'BikeshareServices', 'BikeshareDirectives']);
+angular.module('BikeshareApp', ['BikeshareControllers', 'BikeshareServices']);
