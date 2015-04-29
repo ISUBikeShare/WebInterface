@@ -5,6 +5,8 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.transactions = [];
             $scope.searchText = '';
             $scope.filteredResults = [];
+            $scope.limitTo = 100;
+            $scope.displayShowMoreButton = true;
 
             $scope.getTransactions = function() {
                 $scope.loadingTransactions = true;
@@ -22,6 +24,12 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.transactionErrorHandler = function(response) {
                 $scope.loadingTransactions = false;
                 $scope.failureText = 'There was an error while fetching transactions. For more details, view the error report.';
+            };
+
+            $scope.showMore = function() {
+                $scope.limitTo += 100;
+                if($scope.limitTo >= $scope.transactions.length)
+                    $scope.displayShowMoreButton = false;
             };
 
             $scope.getTransactions();
@@ -217,6 +225,8 @@ angular.module('BikeshareControllers', ['ui.router'])
     .controller('ErrorReportCtrl', ['$scope', 'api',
         function($scope, api) {
             $scope.errorTypeFilter = '';
+            $scope.limitTo = 20;
+            $scope.displayShowMoreButton = true;
 
             $scope.getErrors = function() {
                 $scope.loadingErrors = true;
@@ -234,6 +244,12 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.getErrorsFailureHandler = function(response) {
                 $scope.loadingErrors = false;
                 $scope.failureText = 'There was an error while fetching error reports. Please try again.'
+            };
+
+            $scope.showMore = function() {
+                $scope.limitTo += 20;
+                if($scope.limitTo >= $scope.errors.length)
+                    $scope.displayShowMoreButton = false;
             };
 
             $scope.getErrors();
