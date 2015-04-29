@@ -13,9 +13,9 @@
                 ng-minlength="1"
                 style="width: 200px; font-weight: normal;">
         <div class="btn-group pull-right" style="padding-right: 10px;">
-            <div class="btn btn-default" ng-class="{active: errorTypeFilter == ''}" ng-click="errorTypeFilter = ''">All</div>
-            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Client'}" ng-click="errorTypeFilter = 'Client'">Client</div>
-            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Server'}" ng-click="errorTypeFilter = 'Server'">Server</div>
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == ''}" ng-click="filterType('')">All</div>
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Client'}" ng-click="filterType('Client')">Client</div>
+            <div class="btn btn-default" ng-class="{active: errorTypeFilter == 'Server'}" ng-click="filterType('Server')">Server</div>
         </div>
     </h2>
     <div class="table-responsive">
@@ -34,8 +34,7 @@
                         <i class="fa fa-spinner fa-spin"></i>
                     </td>
                 </tr>
-                <tr ng-repeat="error in errors | limitTo: limitTo | filter: searchText as filterResults"
-                    ng-if="!errorTypeFilter || error.type == errorTypeFilter">
+                <tr ng-repeat="error in errors | limitTo: limitTo | filter: searchText as filterResults">
                     <td>{{ error.date | date: 'yyyy-MM-dd hh:mm:ss a' }}</td>
                     <td>{{ error.type }}</td>
                     <td>{{ error.stackTrace }}</td>

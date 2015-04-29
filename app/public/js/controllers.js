@@ -222,8 +222,8 @@ angular.module('BikeshareControllers', ['ui.router'])
         }
     ])
 
-    .controller('ErrorReportCtrl', ['$scope', 'api',
-        function($scope, api) {
+    .controller('ErrorReportCtrl', ['$scope', '$filter', 'api',
+        function($scope, $filter, api) {
             $scope.errorTypeFilter = '';
             $scope.limitTo = 20;
             $scope.displayShowMoreButton = true;
@@ -239,6 +239,7 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.getErrorsSuccessHandler = function(response) {
                 $scope.loadingErrors = false;
                 $scope.errors = response.reverse();
+                $scope.originalErrors = angular.copy($scope.errors);
             };
 
             $scope.getErrorsFailureHandler = function(response) {
@@ -250,6 +251,22 @@ angular.module('BikeshareControllers', ['ui.router'])
                 $scope.limitTo += 20;
                 if($scope.limitTo >= $scope.errors.length)
                     $scope.displayShowMoreButton = false;
+            };
+
+            $scope.filterType = function(type) {
+                if(type == '') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {type: ''});
+                }
+
+                else if(type == 'Client') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {type: 'Client'});
+                }
+
+                else if(type == 'Server') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {'type': 'Server'})
+                }
+
+                $scope.errorTypeFilter = type;
             };
 
             $scope.getErrors();
