@@ -30,7 +30,7 @@
                         <i class="fa fa-spinner fa-spin"></i>
                     </td>
                 </tr>
-                <tr ng-repeat="transaction in transactions | filter:searchText as filterResults">
+                <tr ng-repeat="transaction in transactions | orderBy:'date':true | limitTo: limitTo | filter: searchText as filterResults">
                     <td>{{ transaction.bikeID }}</td>
                     <td>{{ transaction.dockID }}</td>
                     <td>{{ transaction.studentID }}</td>
@@ -38,10 +38,17 @@
                     <td>{{ transaction.action }}</td>
                     <td>{{ transaction.success }}</td>
                 </tr>
+
                 <tr ng-if="filterResults.length == 0 && !loadingTransactions">
                     <td colspan="6" style="text-align: center">No transactions found</td>
                 </tr>
             </tbody>
         </table>
+        <div class="text-center">
+            <div class="btn btn-default" ng-click="showMore()" ng-if="displayShowMoreButton && !searchText && !loadingTransactions">Show More</div>
+            <div class="text-muted" ng-if="searchText && displayShowMoreButton">Please clear filter to show more transactions</div>
+            <div class="text-muted" ng-if="!searchText && !displayShowMoreButton">No more transactions to show</div>
+        </div>
+
     </div>
 </div>

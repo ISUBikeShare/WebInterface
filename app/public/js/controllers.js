@@ -5,6 +5,8 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.transactions = [];
             $scope.searchText = '';
             $scope.filteredResults = [];
+            $scope.limitTo = 100;
+            $scope.displayShowMoreButton = true;
 
             $scope.getTransactions = function() {
                 $scope.loadingTransactions = true;
@@ -22,6 +24,12 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.transactionErrorHandler = function(response) {
                 $scope.loadingTransactions = false;
                 $scope.failureText = 'There was an error while fetching transactions. For more details, view the error report.';
+            };
+
+            $scope.showMore = function() {
+                $scope.limitTo += 100;
+                if($scope.limitTo >= $scope.transactions.length)
+                    $scope.displayShowMoreButton = false;
             };
 
             $scope.getTransactions();
@@ -214,9 +222,11 @@ angular.module('BikeshareControllers', ['ui.router'])
         }
     ])
 
-    .controller('ErrorReportCtrl', ['$scope', 'api',
-        function($scope, api) {
+    .controller('ErrorReportCtrl', ['$scope', '$filter', 'api',
+        function($scope, $filter, api) {
             $scope.errorTypeFilter = '';
+            $scope.limitTo = 20;
+            $scope.displayShowMoreButton = true;
 
             $scope.getErrors = function() {
                 $scope.loadingErrors = true;
@@ -229,11 +239,34 @@ angular.module('BikeshareControllers', ['ui.router'])
             $scope.getErrorsSuccessHandler = function(response) {
                 $scope.loadingErrors = false;
                 $scope.errors = response.reverse();
+                $scope.originalErrors = angular.copy($scope.errors);
             };
 
             $scope.getErrorsFailureHandler = function(response) {
                 $scope.loadingErrors = false;
                 $scope.failureText = 'There was an error while fetching error reports. Please try again.'
+            };
+
+            $scope.showMore = function() {
+                $scope.limitTo += 20;
+                if($scope.limitTo >= $scope.errors.length)
+                    $scope.displayShowMoreButton = false;
+            };
+
+            $scope.filterType = function(type) {
+                if(type == '') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {type: ''});
+                }
+
+                else if(type == 'Client') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {type: 'Client'});
+                }
+
+                else if(type == 'Server') {
+                    $scope.errors = $filter('filter')($scope.originalErrors, {'type': 'Server'})
+                }
+
+                $scope.errorTypeFilter = type;
             };
 
             $scope.getErrors();
